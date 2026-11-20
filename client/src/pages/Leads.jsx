@@ -1,0 +1,281 @@
+import { useState, useMemo } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
+import { UserPlus, Users, AlertCircle, RefreshCw } from 'lucide-react';
+import { useLeads, useUpdateLead, useDeleteLead } from '../../hooks/useLeads';
+import { useStats } from '../../hooks/useStats';
+import { useDebounce } from '../../hooks/useDebounce';
+import { LeadsTable } from '../../components/leads/LeadsTable';
+import { LeadFilters } from '../../components/leads/LeadFilters';
+import { Pagination } from '../../components/ui/Pagination';
+import { Button } from '../../components/ui/Button';
+import { Skeleton } from '../../components/ui/Skeleton';
+import { EmptyState } from '../../components/ui/EmptyState';
+import { ConfirmDialog } from '../../components/ui/ConfirmDialog';
+
+export const Leads = ({ onOpenAdd, onOpenEdit }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+
+  // Read params from URL
+  const searchParam = searchParams.get('search') || '';
+  const statusParam = searchParams.get('status') || '';
+  const sourceParam = searchParams.get('source') || '';
+  const sortByParam = searchParams.get('sortBy') || 'createdAt';
+  const orderParam = searchParams.get('order') || 'desc';
+  const pageParam = Number(searchParams.get('page')) || 1;
+  const limitParam = Number(searchParams.get('limit')) || 10;
+
+  // Local state for debounced search input
+  const [searchInput, setSearchInput] = useState(searchParam);
+  const debouncedSearch = useDebounce(searchInput, 300);
+
+  // Sync debounced search to URL query string
+  useMemo(() => {
+    setSearchParams(
+      (prev) => {
+        const next = new URLSearchParams(prev);
+        if (debouncedSearch) {
+          next.set('search', debouncedSearch);
+        } else {
+          next.delete('search');
+        }
+        next.set('page', '1');
+        return next;
+      },
+      { replace: true }
+    );
+  }, [debouncedSearch, setSearchParams]);
+
+  // Fetch leads with query parameters
+  const queryArgs = useMemo(
+    () => ({
+      search: searchParam || undefined,
+      status: statusParam || undefined,
+      source: sourceParam || undefined,
+      sortBy: sortByParam,
+      order: orderParam,
+      page: pageParam,
+      limit: limitParam,
+    }),
+    [searchParam, statusParam, sourceParam, sortByParam, orderParam, pageParam, limitParam]
+  );
+
+  const { data, isLoading, isError, error, refetch, isFetching } = useLeads(queryArgs);
+  const { data: stats } = useStats();
+
+  // Mutations
+  const updateLeadMutation = useUpdateLead();
+  const deleteLeadMutation = useDeleteLead();
+
+  // Delete modal state
+  const [leadToDelete, setLeadToDelete] = useState(null);
+
+  // Handlers for URL query updates
+  const handleStatusChange = (newStatus) => {
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      if (newStatus) next.set('status', newStatus);
+      else next.delete('status');
+      next.set('page', '1');
+      return next;
+    });
+  };
+
+  const handleSourceChange = (newSource) => {
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      if (newSource) next.set('source', newSource);
+      else next.delete('source');
+      next.set('page', '1');
+      return next;
+    });
+  };
+
+  const handleClearFilters = () => {
+    setSearchInput('');
+    setSearchParams({
+      page: '1',
+      limit: String(limitParam),
+      sortBy: sortByParam,
+      order: orderParam,
+    });
+  };
+
+  const handleSort = (field) => {
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      if (sortByParam === field) {
+        next.set('order', orderParam === 'asc' ? 'desc' : 'asc');
+      } else {
+        next.set('sortBy', field);
+        next.set('order', 'asc');
+      }
+      return next;
+    });
+  };
+
+  const handlePageChange = (newPage) => {
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      next.set('page', String(newPage));
+      return next;
+    });
+  };
+
+  const handleLimitChange = (newLimit) => {
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      next.set('limit', String(newLimit));
+      next.set('page', '1');
+      return next;
+    });
+  };
+
+  const handleInlineStatusChange = (id, newStatus) => {
+    updateLeadMutation.mutate({ id, data: { status: newStatus } });
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!leadToDelete) return;
+    await deleteLeadMutation.mutateAsync(leadToDelete.id);
+    setLeadToDelete(null);
+  };
+
+  const isFiltered = Boolean(searchParam || statusParam || sourceParam);
+  const leads = data?.data || [];
+  const meta = data?.meta || { total: 0, page: 1, limit: limitParam, totalPages: 1 };
+
+  return (
+    <div className="space-y-4">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div className="flex items-center gap-2.5">
+          <h2 className="text-xl sm:text-2xl font-semibold text-text-primary tracking-tight">
+            Leads
+          </h2>
+          <span className="font-mono text-xs px-2 py-0.5 rounded-full bg-surface-muted text-text-secondary border border-border">
+            {meta.total}
+          </span>
+        </div>
+
+        <Button
+          variant="primary"
+          leftIcon={UserPlus}
+          onClick={() => (onOpenAdd ? onOpenAdd() : navigate('/leads/new'))}
+        >
+          Add lead
+        </Button>
+      </div>
+
+      {/* Main card containing Filters + Table + Pagination */}
+      <div className="bg-surface border border-border rounded-[12px] overflow-hidden shadow-xs">
+        <LeadFilters
+          search={searchInput}
+          onSearchChange={setSearchInput}
+          status={statusParam}
+          onStatusChange={handleStatusChange}
+          source={sourceParam}
+          onSourceChange={handleSourceChange}
+          onClearFilters={handleClearFilters}
+          statusCounts={stats?.byStatus || {}}
+          totalCount={stats?.total || meta.total}
+        />
+
+        {/* Loading Skeleton */}
+        {isLoading && (
+          <div className="p-6 space-y-3">
+            {[...Array(6)].map((_, i) => (
+              <Skeleton key={i} className="h-12 w-full" />
+            ))}
+          </div>
+        )}
+
+        {/* Error State */}
+        {!isLoading && isError && (
+          <div className="p-8 text-center flex flex-col items-center justify-center">
+            <div className="w-10 h-10 rounded-[8px] bg-[#FCE6E3] dark:bg-[#3D1B18] text-[#DC2626] flex items-center justify-center mb-3">
+              <AlertCircle className="w-5 h-5" strokeWidth={1.75} />
+            </div>
+            <p className="text-sm font-semibold text-text-primary mb-1">
+              Failed to load leads
+            </p>
+            <p className="text-xs text-text-secondary mb-4 max-w-sm">
+              {error?.message || 'An error occurred while fetching your leads.'}
+            </p>
+            <Button
+              variant="secondary"
+              size="sm"
+              leftIcon={RefreshCw}
+              onClick={() => refetch()}
+            >
+              Retry
+            </Button>
+          </div>
+        )}
+
+        {/* Empty State: Zero leads total */}
+        {!isLoading && !isError && leads.length === 0 && !isFiltered && (
+          <EmptyState
+            icon={Users}
+            title="No leads yet"
+            description="Start building your pipeline by capturing your first sales lead."
+            actionLabel="Add lead"
+            actionIcon={UserPlus}
+            onAction={() => (onOpenAdd ? onOpenAdd() : navigate('/leads/new'))}
+            className="border-0 rounded-none py-16"
+          />
+        )}
+
+        {/* Empty State: Filters produced no results */}
+        {!isLoading && !isError && leads.length === 0 && isFiltered && (
+          <EmptyState
+            icon={Users}
+            title="No matching leads"
+            description="No leads matched your current search filters. Try adjusting or clearing your filters."
+            actionLabel="Clear filters"
+            onAction={handleClearFilters}
+            className="border-0 rounded-none py-16"
+          />
+        )}
+
+        {/* Table data view */}
+        {!isLoading && !isError && leads.length > 0 && (
+          <>
+            <LeadsTable
+              leads={leads}
+              sortBy={sortByParam}
+              order={orderParam}
+              onSort={handleSort}
+              onRowClick={(id) => navigate(`/leads/${id}`)}
+              onEdit={(lead) => (onOpenEdit ? onOpenEdit(lead) : navigate(`/leads/${lead.id}/edit`))}
+              onDelete={(lead) => setLeadToDelete(lead)}
+              onChangeStatus={handleInlineStatusChange}
+              isInitialLoad={!isFetching}
+            />
+
+            <Pagination
+              page={meta.page}
+              limit={meta.limit}
+              total={meta.total}
+              totalPages={meta.totalPages}
+              onPageChange={handlePageChange}
+              onLimitChange={handleLimitChange}
+            />
+          </>
+        )}
+      </div>
+
+      {/* Delete Confirmation Dialog */}
+      <ConfirmDialog
+        isOpen={Boolean(leadToDelete)}
+        onClose={() => setLeadToDelete(null)}
+        onConfirm={handleConfirmDelete}
+        title="Delete this lead?"
+        itemName={leadToDelete?.name}
+        description="This action can't be undone. The lead and all associated details will be permanently removed."
+        confirmLabel="Delete"
+        isLoading={deleteLeadMutation.isPending}
+      />
+    </div>
+  );
+};
