@@ -55,69 +55,72 @@ export const AppShell = ({ children, title = 'Lead Manager' }) => {
   }, [navigate]);
 
   return (
-    <div className="h-screen w-full bg-background flex overflow-hidden antialiased">
-      {/* Desktop & Laptop Stationary Sidebar: fixed height, placed permanently on left */}
-      <aside className="hidden md:block shrink-0 h-screen sticky top-0 z-30 select-none">
-        <Sidebar
-          isCollapsed={isCollapsed}
-          onToggleCollapse={() => setIsCollapsed(!isCollapsed)}
-          user={user}
-          onLogout={logout}
-        />
-      </aside>
+    <div className="h-screen w-full bg-canvas p-1.5 sm:p-2.5 lg:p-3 flex flex-col overflow-hidden antialiased select-none">
+      {/* Outer Floating Application Frame: rounded-24px card container mirroring Metrik design */}
+      <div className="bg-surface border border-border/80 rounded-[20px] sm:rounded-[24px] shadow-sm flex flex-1 overflow-hidden relative">
+        {/* Desktop Stationary Sidebar: inside rounded shell */}
+        <aside className="hidden md:block shrink-0 h-full border-r border-border select-none z-30">
+          <Sidebar
+            isCollapsed={isCollapsed}
+            onToggleCollapse={() => setIsCollapsed(!isCollapsed)}
+            user={user}
+            onLogout={logout}
+          />
+        </aside>
 
-      {/* Tablet / Mobile Overlay Drawer */}
-      <AnimatePresence>
-        {isMobileOpen && (
-          <div className="fixed inset-0 z-50 md:hidden flex">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.15 }}
-              onClick={() => setIsMobileOpen(false)}
-              className="fixed inset-0 bg-black/40"
-            />
-            <motion.div
-              initial={{ x: '-100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '-100%' }}
-              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="relative z-10"
-            >
-              <Sidebar
-                isCollapsed={false}
-                user={user}
-                onLogout={logout}
-                onCloseMobile={() => setIsMobileOpen(false)}
+        {/* Tablet / Mobile Overlay Drawer */}
+        <AnimatePresence>
+          {isMobileOpen && (
+            <div className="fixed inset-0 z-50 md:hidden flex">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.15 }}
+                onClick={() => setIsMobileOpen(false)}
+                className="fixed inset-0 bg-black/40"
               />
+              <motion.div
+                initial={{ x: '-100%' }}
+                animate={{ x: 0 }}
+                exit={{ x: '-100%' }}
+                transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                className="relative z-10"
+              >
+                <Sidebar
+                  isCollapsed={false}
+                  user={user}
+                  onLogout={logout}
+                  onCloseMobile={() => setIsMobileOpen(false)}
+                />
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
+
+        {/* Main Content Area */}
+        <div className="flex-1 flex flex-col h-full min-w-0 overflow-hidden">
+          <Topbar
+            title={title}
+            onOpenMobileSidebar={() => setIsMobileOpen(true)}
+            user={user}
+            theme={theme}
+            onToggleTheme={toggleTheme}
+          />
+
+          {/* Page body viewport: smooth scrolling region for all pages */}
+          <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-7 max-w-layout w-full mx-auto pb-20 md:pb-8">
+            <motion.div
+              key={location.pathname.startsWith('/leads') ? '/leads' : location.pathname}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+              className="w-full"
+            >
+              {children}
             </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col h-screen min-w-0 overflow-hidden">
-        <Topbar
-          title={title}
-          onOpenMobileSidebar={() => setIsMobileOpen(true)}
-          user={user}
-          theme={theme}
-          onToggleTheme={toggleTheme}
-        />
-
-        {/* Page body viewport: smooth scrolling region for all pages */}
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 max-w-layout w-full mx-auto pb-20 md:pb-8">
-          <motion.div
-            key={location.pathname.startsWith('/leads') ? '/leads' : location.pathname}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
-            className="w-full"
-          >
-            {children}
-          </motion.div>
-        </main>
+          </main>
+        </div>
       </div>
 
       {/* Fixed bottom navigation on mobile */}

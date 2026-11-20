@@ -18,20 +18,20 @@ export const LeadFilters = ({
   return (
     <div className="bg-surface border-b border-border py-3 px-4 sm:px-6 flex flex-col gap-3">
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-        {/* Search input with debounced clearable control */}
+        {/* Search input with debounced clearable control (pill style) */}
         <div className="relative flex-1 max-w-md">
-          <Search className="w-4 h-4 text-text-tertiary absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" strokeWidth={1.75} />
+          <Search className="w-3.5 h-3.5 text-text-tertiary absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" strokeWidth={1.75} />
           <input
             type="text"
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder="Search by name, email, or company..."
-            className="w-full h-9 pl-9 pr-8 bg-surface-muted/60 text-text-primary text-xs rounded-[8px] border border-border placeholder:text-text-tertiary focus:border-accent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
+            className="w-full h-9 pl-9 pr-8 bg-surface-muted/60 text-text-primary text-xs rounded-full border border-border placeholder:text-text-tertiary focus:border-accent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
           />
           {search && (
             <button
               onClick={() => onSearchChange('')}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 p-0.5 text-text-tertiary hover:text-text-primary rounded"
+              className="absolute right-3 top-1/2 -translate-y-1/2 p-0.5 text-text-tertiary hover:text-text-primary rounded-full"
               aria-label="Clear search"
             >
               <X className="w-3.5 h-3.5" strokeWidth={1.75} />
@@ -46,7 +46,7 @@ export const LeadFilters = ({
             <select
               value={source}
               onChange={(e) => onSourceChange(e.target.value)}
-              className="h-9 px-2.5 py-1 text-xs bg-surface border border-border rounded-[8px] text-text-primary focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent cursor-pointer"
+              className="h-9 px-3 py-1 text-xs bg-surface border border-border rounded-full text-text-primary focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent cursor-pointer shadow-xs"
               aria-label="Filter by source"
             >
               <option value="">All sources</option>
@@ -61,7 +61,7 @@ export const LeadFilters = ({
           {isFiltered && (
             <button
               onClick={onClearFilters}
-              className="h-9 px-3 text-xs font-medium text-text-secondary hover:text-text-primary hover:bg-surface-muted rounded-[8px] transition-colors"
+              className="h-9 px-3 text-xs font-medium text-text-secondary hover:text-text-primary hover:bg-surface-muted rounded-full transition-colors cursor-pointer"
             >
               Clear filters
             </button>
@@ -69,19 +69,19 @@ export const LeadFilters = ({
         </div>
       </div>
 
-      {/* Status Segmented Control with counts */}
-      <div className="flex items-center gap-1 overflow-x-auto pb-1 sm:pb-0 scrollbar-none select-none">
+      {/* Status Segmented Control with counts (pill style matching Metrik reference) */}
+      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-none select-none">
         <button
           onClick={() => onStatusChange('')}
           className={cn(
-            'flex items-center gap-1.5 px-3 py-1.5 rounded-[6px] text-xs font-medium transition-colors shrink-0',
+            'flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-150 shrink-0 cursor-pointer',
             !status
-              ? 'bg-accent text-white font-semibold shadow-xs'
+              ? 'bg-[#121614] text-white dark:bg-white dark:text-[#121614] shadow-xs'
               : 'text-text-secondary hover:bg-surface-muted hover:text-text-primary'
           )}
         >
           <span>All</span>
-          <span className={cn('text-[10px] font-mono px-1 rounded', !status ? 'bg-white/20 text-white' : 'bg-surface-muted text-text-tertiary')}>
+          <span className={cn('text-[10px] font-mono px-1.5 py-0.2 rounded-full', !status ? 'bg-white/20 text-white dark:bg-black/20 dark:text-black' : 'bg-surface-muted text-text-tertiary')}>
             {totalCount}
           </span>
         </button>
@@ -96,18 +96,18 @@ export const LeadFilters = ({
               key={key}
               onClick={() => onStatusChange(isActive ? '' : key)}
               className={cn(
-                'flex items-center gap-1.5 px-3 py-1.5 rounded-[6px] text-xs font-medium transition-colors shrink-0',
+                'flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-150 shrink-0 cursor-pointer',
                 isActive
-                  ? 'bg-accent text-white font-semibold shadow-xs'
+                  ? 'bg-[#121614] text-white dark:bg-white dark:text-[#121614] shadow-xs'
                   : 'text-text-secondary hover:bg-surface-muted hover:text-text-primary'
               )}
             >
               <span
                 className="w-1.5 h-1.5 rounded-full"
-                style={{ backgroundColor: isActive ? '#FFFFFF' : config.colorHex }}
+                style={{ backgroundColor: isActive ? (document.documentElement.classList.contains('dark') ? '#000000' : '#FFFFFF') : config.colorHex }}
               />
               <span>{config.label}</span>
-              <span className={cn('text-[10px] font-mono px-1 rounded', isActive ? 'bg-white/20 text-white' : 'bg-surface-muted text-text-tertiary')}>
+              <span className={cn('text-[10px] font-mono px-1.5 py-0.2 rounded-full', isActive ? 'bg-white/20 text-white dark:bg-black/20 dark:text-black' : 'bg-surface-muted text-text-tertiary')}>
                 {count}
               </span>
             </button>

@@ -1,4 +1,4 @@
-import { Menu, Sun, Moon, Search } from 'lucide-react';
+import { Menu, Sun, Moon, Search, Bell, UserPlus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { getInitials } from '../../lib/utils';
 
@@ -17,36 +17,53 @@ export const Topbar = ({
         {/* Mobile menu trigger */}
         <button
           onClick={onOpenMobileSidebar}
-          className="md:hidden p-2 rounded-[8px] text-text-secondary hover:text-text-primary hover:bg-surface-muted transition-colors"
+          className="md:hidden p-2 rounded-[8px] text-text-secondary hover:text-text-primary hover:bg-surface-muted transition-colors cursor-pointer"
           aria-label="Open navigation menu"
         >
           <Menu className="w-5 h-5" strokeWidth={1.75} />
         </button>
 
-        {/* Page Title */}
-        <h1 className="text-xl sm:text-2xl font-semibold text-text-primary tracking-tight">
-          {title}
-        </h1>
-      </div>
-
-      <div className="flex items-center gap-2.5">
-        {/* Global Search Hint Button (Ctrl/Cmd + K) */}
-        <button
-          onClick={() => navigate('/leads')}
-          className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-[8px] border border-border bg-surface-muted/50 text-text-tertiary hover:text-text-primary hover:border-text-tertiary/60 transition-colors text-xs"
-          aria-label="Search leads"
-        >
-          <Search className="w-3.5 h-3.5" strokeWidth={1.75} />
-          <span>Search leads...</span>
-          <kbd className="font-mono text-[10px] bg-surface px-1.5 py-0.5 rounded border border-border text-text-secondary">
+        {/* Global Pill Search Bar (From reference design) */}
+        <div className="relative w-72 sm:w-80 md:w-96">
+          <Search className="w-3.5 h-3.5 text-text-tertiary absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" strokeWidth={1.75} />
+          <input
+            type="text"
+            onClick={() => navigate('/leads')}
+            placeholder="Search across your leads, pipeline..."
+            readOnly
+            className="w-full h-9 pl-9 pr-12 rounded-full bg-surface-muted/60 border border-border text-xs text-text-primary placeholder:text-text-tertiary focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent cursor-pointer hover:bg-surface-muted transition-colors"
+          />
+          <kbd className="absolute right-3 top-1/2 -translate-y-1/2 font-mono text-[10px] bg-surface px-1.5 py-0.5 rounded border border-border text-text-tertiary pointer-events-none">
             ⌘K
           </kbd>
+        </div>
+      </div>
+
+      <div className="flex items-center gap-2 sm:gap-2.5">
+        {/* Quick Add Lead Pill Button (From reference design) */}
+        <button
+          onClick={() => navigate('/leads/new')}
+          className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-accent hover:bg-accent-hover text-white text-xs font-semibold shadow-xs transition-colors cursor-pointer"
+        >
+          <UserPlus className="w-3.5 h-3.5" />
+          <span>Add lead</span>
+        </button>
+
+        {/* Notification Bell Button */}
+        <button
+          onClick={() => navigate('/leads')}
+          className="relative p-2 rounded-full border border-border bg-surface text-text-secondary hover:text-text-primary hover:bg-surface-muted transition-colors cursor-pointer"
+          title="Notifications & follow-up alerts"
+          aria-label="Notifications"
+        >
+          <Bell className="w-4 h-4" strokeWidth={1.75} />
+          <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-accent" />
         </button>
 
         {/* Theme Toggle Button */}
         <button
           onClick={onToggleTheme}
-          className="p-2 rounded-[8px] text-text-secondary hover:text-text-primary hover:bg-surface-muted transition-colors"
+          className="p-2 rounded-full border border-border bg-surface text-text-secondary hover:text-text-primary hover:bg-surface-muted transition-colors cursor-pointer"
           title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
           aria-label="Toggle color theme"
         >
@@ -60,7 +77,7 @@ export const Topbar = ({
         {/* User Avatar linking to profile */}
         <button
           onClick={() => navigate('/profile')}
-          className="w-8 h-8 rounded-full bg-accent-soft text-accent font-semibold text-xs flex items-center justify-center shrink-0 hover:ring-2 hover:ring-accent/40 transition-all"
+          className="w-8 h-8 rounded-full bg-accent-soft text-accent font-semibold text-xs flex items-center justify-center shrink-0 hover:ring-2 hover:ring-accent/40 transition-all cursor-pointer shadow-xs"
           title={user?.name || 'Profile'}
           aria-label="View user profile"
         >

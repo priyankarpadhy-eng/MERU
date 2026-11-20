@@ -6,6 +6,12 @@ import {
   User,
   LogOut,
   ChevronLeft,
+  ChevronDown,
+  Globe,
+  Linkedin,
+  PhoneCall,
+  Sparkles,
+  Plus,
 } from 'lucide-react';
 import { cn, getInitials } from '../../lib/utils';
 
@@ -25,15 +31,22 @@ export const Sidebar = ({
     { label: 'Profile', to: '/profile', icon: User },
   ];
 
+  const dataSources = [
+    { name: 'LinkedIn', icon: Linkedin, color: 'text-[#0A66C2]', status: 'Connected' },
+    { name: 'Website', icon: Globe, color: 'text-[#0F6B5C] dark:text-[#3FB59F]', status: 'Connected' },
+    { name: 'HubSpot', icon: Sparkles, color: 'text-[#D97706]', status: 'Connected' },
+    { name: 'Cold outreach', icon: PhoneCall, color: 'text-[#2563EB]', status: 'Connected' },
+  ];
+
   return (
     <aside
       className={cn(
-        'h-screen bg-surface border-r border-border flex flex-col justify-between transition-all duration-200 select-none z-30 overflow-hidden',
+        'h-full bg-surface flex flex-col justify-between transition-all duration-200 select-none overflow-hidden',
         isCollapsed ? 'w-[72px]' : 'w-64'
       )}
     >
-      {/* Top Header & Logo */}
       <div>
+        {/* Top Header & Logo */}
         <div
           className={cn(
             'h-16 flex items-center border-b border-border transition-all duration-200 overflow-hidden',
@@ -44,7 +57,7 @@ export const Sidebar = ({
             /* Collapsed view: logo mark is perfectly centered, never clipped, click expands sidebar */
             <button
               onClick={onToggleCollapse}
-              className="w-10 h-10 rounded-[8px] bg-accent flex items-center justify-center shrink-0 text-white hover:opacity-90 transition-opacity cursor-pointer shadow-xs"
+              className="w-10 h-10 rounded-[10px] bg-accent flex items-center justify-center shrink-0 text-white hover:opacity-90 transition-opacity cursor-pointer shadow-xs"
               title="Expand sidebar"
               aria-label="Expand sidebar"
             >
@@ -67,7 +80,7 @@ export const Sidebar = ({
             /* Expanded view: Logo + Title on left, collapse button on right */
             <>
               <div className="flex items-center gap-3 overflow-hidden min-w-0">
-                <div className="w-9 h-9 rounded-[8px] bg-accent flex items-center justify-center shrink-0 text-white shadow-xs">
+                <div className="w-9 h-9 rounded-[10px] bg-accent flex items-center justify-center shrink-0 text-white shadow-xs">
                   <svg
                     width="20"
                     height="20"
@@ -83,9 +96,11 @@ export const Sidebar = ({
                     <polyline points="2 12 12 17 22 12" />
                   </svg>
                 </div>
-                <span className="font-semibold text-text-primary text-sm tracking-tight truncate whitespace-nowrap">
-                  Lead Manager
-                </span>
+                <div className="flex items-baseline gap-1.5">
+                  <span className="font-bold text-text-primary text-base tracking-tight truncate whitespace-nowrap">
+                    Lead Manager
+                  </span>
+                </div>
               </div>
 
               {/* Desktop collapse toggle */}
@@ -101,7 +116,27 @@ export const Sidebar = ({
           )}
         </div>
 
-        {/* Main Navigation */}
+        {/* Workspace Selector Pill (inspired by reference image) */}
+        {!isCollapsed && (
+          <div className="px-3 pt-3 pb-1">
+            <button
+              type="button"
+              className="w-full flex items-center justify-between px-3 py-2 rounded-[12px] bg-surface-muted/60 border border-border/80 text-xs text-text-primary hover:bg-surface-muted transition-colors cursor-pointer"
+            >
+              <div className="flex items-center gap-2 overflow-hidden min-w-0">
+                <div className="w-5 h-5 rounded-[4px] bg-accent text-white flex items-center justify-center font-bold text-[10px] shrink-0">
+                  LM
+                </div>
+                <span className="font-semibold text-text-primary truncate">
+                  {user?.name ? `${user.name.split(' ')[0]}'s Pipeline` : "Sales Pipeline"}
+                </span>
+              </div>
+              <ChevronDown className="w-3.5 h-3.5 text-text-tertiary shrink-0" />
+            </button>
+          </div>
+        )}
+
+        {/* Main Navigation (Active pill: Solid black pill matching reference image) */}
         <nav className="p-3 space-y-1">
           {navItems.map((item) => (
             <NavLink
@@ -111,32 +146,24 @@ export const Sidebar = ({
               title={isCollapsed ? item.label : undefined}
               className={({ isActive }) =>
                 cn(
-                  'relative flex items-center gap-3 px-3 py-2.5 rounded-[8px] text-sm font-medium transition-colors',
-                  isCollapsed && 'justify-center px-0',
+                  'relative flex items-center gap-3 px-3.5 py-2.5 rounded-full text-xs font-semibold transition-all duration-150',
+                  isCollapsed && 'justify-center px-0 rounded-[10px]',
                   isActive
-                    ? 'text-accent font-semibold bg-accent-soft'
+                    ? 'bg-[#121614] text-white dark:bg-white dark:text-[#121614] shadow-xs'
                     : 'text-text-secondary hover:text-text-primary hover:bg-surface-muted'
                 )
               }
             >
               {({ isActive }) => (
                 <>
-                  {/* Shared layout active indicator bar */}
-                  {isActive && (
-                    <motion.div
-                      layoutId="sidebarActivePill"
-                      className="absolute left-0 top-1.5 bottom-1.5 w-1 bg-accent rounded-r-full"
-                      transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                    />
-                  )}
-                  <item.icon className="w-4 h-4 shrink-0" strokeWidth={1.75} />
+                  <item.icon className="w-4 h-4 shrink-0" strokeWidth={isActive ? 2 : 1.75} />
                   {!isCollapsed && <span className="truncate whitespace-nowrap">{item.label}</span>}
                 </>
               )}
             </NavLink>
           ))}
 
-          <div className="pt-3 pb-2 px-3">
+          <div className="pt-2 pb-1 px-3">
             <div className="h-[1px] bg-border w-full" />
           </div>
 
@@ -148,37 +175,62 @@ export const Sidebar = ({
               title={isCollapsed ? item.label : undefined}
               className={({ isActive }) =>
                 cn(
-                  'relative flex items-center gap-3 px-3 py-2.5 rounded-[8px] text-sm font-medium transition-colors',
-                  isCollapsed && 'justify-center px-0',
+                  'relative flex items-center gap-3 px-3.5 py-2.5 rounded-full text-xs font-semibold transition-all duration-150',
+                  isCollapsed && 'justify-center px-0 rounded-[10px]',
                   isActive
-                    ? 'text-accent font-semibold bg-accent-soft'
+                    ? 'bg-[#121614] text-white dark:bg-white dark:text-[#121614] shadow-xs'
                     : 'text-text-secondary hover:text-text-primary hover:bg-surface-muted'
                 )
               }
             >
               {({ isActive }) => (
                 <>
-                  {isActive && (
-                    <motion.div
-                      layoutId="sidebarActivePill"
-                      className="absolute left-0 top-1.5 bottom-1.5 w-1 bg-accent rounded-r-full"
-                      transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                    />
-                  )}
-                  <item.icon className="w-4 h-4 shrink-0" strokeWidth={1.75} />
+                  <item.icon className="w-4 h-4 shrink-0" strokeWidth={isActive ? 2 : 1.75} />
                   {!isCollapsed && <span className="truncate whitespace-nowrap">{item.label}</span>}
                 </>
               )}
             </NavLink>
           ))}
         </nav>
+
+        {/* Data Sources / Integrations list (From reference design) */}
+        {!isCollapsed && (
+          <div className="px-3 pt-3">
+            <div className="flex items-center justify-between text-[10px] font-semibold text-text-tertiary uppercase tracking-wider px-2 mb-2">
+              <span>Data sources</span>
+              <button
+                type="button"
+                className="p-0.5 rounded hover:text-text-primary hover:bg-surface-muted"
+                title="Manage integrations"
+              >
+                <Plus className="w-3 h-3" />
+              </button>
+            </div>
+            <div className="space-y-1">
+              {dataSources.map((ds) => (
+                <div
+                  key={ds.name}
+                  className="flex items-center justify-between px-2.5 py-1.5 rounded-[8px] hover:bg-surface-muted/50 transition-colors text-xs"
+                >
+                  <div className="flex items-center gap-2">
+                    <ds.icon className={cn('w-3.5 h-3.5 shrink-0', ds.color)} strokeWidth={1.8} />
+                    <span className="text-text-primary font-medium text-[11px]">{ds.name}</span>
+                  </div>
+                  <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium">
+                    {ds.status}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Bottom User Profile Section */}
       <div className="p-3 border-t border-border">
         <div
           className={cn(
-            'flex items-center rounded-[8px] bg-surface-muted/60 transition-all',
+            'flex items-center rounded-[12px] bg-surface-muted/60 transition-all',
             isCollapsed ? 'justify-center p-2' : 'justify-between p-2 gap-3'
           )}
         >

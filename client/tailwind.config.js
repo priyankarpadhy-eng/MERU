@@ -8,6 +8,7 @@ export default {
   theme: {
     extend: {
       colors: {
+        canvas: 'var(--color-canvas)',
         background: 'var(--color-bg)',
         surface: {
           DEFAULT: 'var(--color-surface)',

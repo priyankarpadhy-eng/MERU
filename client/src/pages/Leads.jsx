@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { UserPlus, Users, AlertCircle, RefreshCw } from 'lucide-react';
+import { UserPlus, Users, AlertCircle, RefreshCw, Download } from 'lucide-react';
 import { useLeads, useUpdateLead, useDeleteLead } from '../hooks/useLeads';
 import { useStats } from '../hooks/useStats';
 import { useDebounce } from '../hooks/useDebounce';
@@ -11,6 +11,7 @@ import { Button } from '../components/ui/Button';
 import { Skeleton } from '../components/ui/Skeleton';
 import { EmptyState } from '../components/ui/EmptyState';
 import { ConfirmDialog } from '../components/ui/ConfirmDialog';
+import { toast } from 'sonner';
 
 export const Leads = ({ onOpenAdd, onOpenEdit }) => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -141,34 +142,75 @@ export const Leads = ({ onOpenAdd, onOpenEdit }) => {
     setLeadToDelete(null);
   };
 
+  // CSV Export handler
+  const handleExportCSV = () => {
+    if (!leads || leads.length === 0) {
+      toast.error('No leads available to export');
+      return;
+    }
+    const headers = ['Name', 'Email', 'Phone', 'Company', 'Source', 'Status', 'Created At'];
+    const rows = leads.map((lead) => [
+      `"${lead.name || ''}"`,
+      `"${lead.email || ''}"`,
+      `"${lead.phone || ''}"`,
+      `"${lead.company || ''}"`,
+      `"${lead.source || ''}"`,
+      `"${lead.status || ''}"`,
+      `"${lead.createdAt || ''}"`,
+    ]);
+    const csvContent = [headers.join(','), ...rows.map((r) => r.join(','))].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `leads_table_${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    toast.success('Leads exported to CSV successfully');
+  };
+
   const isFiltered = Boolean(searchParam || statusParam || sourceParam);
   const leads = data?.data || [];
   const meta = data?.meta || { total: 0, page: 1, limit: limitParam, totalPages: 1 };
 
   return (
     <div className="space-y-4">
-      {/* Top Header: Title, count, and "+ Add lead" button */}
+      {/* Top Header: Title, count, and action buttons */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div className="flex items-center gap-2.5">
-          <h2 className="text-xl sm:text-2xl font-semibold text-text-primary tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-bold text-text-primary tracking-tight">
             Leads
-          </h2>
-          <span className="font-mono text-xs px-2 py-0.5 rounded-full bg-surface-muted text-text-secondary border border-border">
+          </h1>
+          <span className="font-mono text-xs px-2.5 py-0.5 rounded-full bg-surface-muted text-text-secondary border border-border">
             {meta.total}
           </span>
         </div>
 
-        <Button
-          variant="primary"
-          leftIcon={UserPlus}
-          onClick={() => (onOpenAdd ? onOpenAdd() : navigate('/leads/new'))}
-        >
-          Add lead
-        </Button>
+        <div className="flex items-center gap-2.5">
+          {/* Export CSV Pill Button */}
+          <button
+            type="button"
+            onClick={handleExportCSV}
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-border bg-surface text-text-primary text-xs font-semibold hover:bg-surface-muted shadow-xs transition-colors cursor-pointer"
+          >
+            <Download className="w-3.5 h-3.5 text-text-secondary" />
+            <span>Export CSV</span>
+          </button>
+
+          <Button
+            variant="primary"
+            leftIcon={UserPlus}
+            className="rounded-full"
+            onClick={() => (onOpenAdd ? onOpenAdd() : navigate('/leads/new'))}
+          >
+            Add lead
+          </Button>
+        </div>
       </div>
 
-      {/* Main card containing Filters + Table + Pagination (page naturally scrolls) */}
-      <div className="bg-surface border border-border rounded-[12px] overflow-hidden shadow-xs">
+      {/* Main card containing Filters + Table + Pagination (rounded-20px Metrik design) */}
+      <div className="bg-surface border border-border/80 rounded-[20px] overflow-hidden shadow-xs">
         <LeadFilters
           search={searchInput}
           onSearchChange={setSearchInput}

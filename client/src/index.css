@@ -3,14 +3,15 @@
 @tailwind utilities;
 
 :root {
-  /* Light Theme */
-  --color-bg: #F6F5F1;
+  /* Canvas & Base Tokens (Soft Mint/Sage Canvas from reference) */
+  --color-canvas: #EBF3EE;
+  --color-bg: #F8FAF9;
   --color-surface: #FFFFFF;
-  --color-surface-muted: #EFEDE7;
-  --color-border: #E3E0D8;
-  --color-text-primary: #17181A;
-  --color-text-secondary: #5E6066;
-  --color-text-tertiary: #8D8F95;
+  --color-surface-muted: #F1F5F3;
+  --color-border: #E3EAE6;
+  --color-text-primary: #121614;
+  --color-text-secondary: #58615C;
+  --color-text-tertiary: #87928C;
   --color-accent: #0F6B5C;
   --color-accent-hover: #0B574B;
   --color-accent-soft: #E1F0EC;
@@ -35,13 +36,14 @@
 
 .dark {
   /* Dark Theme */
-  --color-bg: #0F1110;
-  --color-surface: #171A19;
-  --color-surface-muted: #1E2221;
-  --color-border: #2A2F2D;
+  --color-canvas: #090C0B;
+  --color-bg: #101312;
+  --color-surface: #161918;
+  --color-surface-muted: #1F2422;
+  --color-border: #28302D;
   --color-text-primary: #ECEDEA;
-  --color-text-secondary: #A3A8A5;
-  --color-text-tertiary: #6D726F;
+  --color-text-secondary: #9DA6A0;
+  --color-text-tertiary: #6E7873;
   --color-accent: #3FB59F;
   --color-accent-hover: #4FD2BA;
   --color-accent-soft: #14302B;
