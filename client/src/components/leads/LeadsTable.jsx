@@ -56,9 +56,9 @@ export const LeadsTable = ({
       {/* Desktop / Tablet view (>=768px): Table */}
       <div className="hidden md:block overflow-x-auto">
         <table className="w-full text-left border-collapse">
-          {/* Sticky table header with solid background and bottom border: no cutoff */}
-          <thead className="sticky top-0 z-10 bg-surface border-b border-border shadow-xs">
-            <tr className="bg-surface-muted/60 text-[11px] font-semibold text-text-secondary uppercase tracking-[0.04em] select-none">
+          {/* Table header with solid background and bottom border: clean, visible, no cutoff */}
+          <thead className="bg-surface border-b border-border">
+            <tr className="bg-surface-muted/50 text-[11px] font-semibold text-text-secondary uppercase tracking-[0.04em] select-none">
               <th
                 onClick={() => onSort('name')}
                 className="py-3 px-4 cursor-pointer hover:text-text-primary transition-colors"

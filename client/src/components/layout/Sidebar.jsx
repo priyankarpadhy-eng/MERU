@@ -6,7 +6,6 @@ import {
   User,
   LogOut,
   ChevronLeft,
-  ChevronRight,
 } from 'lucide-react';
 import { cn, getInitials } from '../../lib/utils';
 
@@ -29,16 +28,26 @@ export const Sidebar = ({
   return (
     <aside
       className={cn(
-        'h-screen bg-surface border-r border-border flex flex-col justify-between transition-all duration-200 select-none z-30',
+        'h-screen bg-surface border-r border-border flex flex-col justify-between transition-all duration-200 select-none z-30 overflow-hidden',
         isCollapsed ? 'w-[72px]' : 'w-64'
       )}
     >
       {/* Top Header & Logo */}
       <div>
-        <div className="h-16 flex items-center justify-between px-4 border-b border-border">
-          <div className="flex items-center gap-3 overflow-hidden">
-            {/* Geometric SVG Logo Mark (no emojis) */}
-            <div className="w-9 h-9 rounded-[8px] bg-accent flex items-center justify-center shrink-0 text-white">
+        <div
+          className={cn(
+            'h-16 flex items-center border-b border-border transition-all duration-200 overflow-hidden',
+            isCollapsed ? 'justify-center px-0' : 'justify-between px-4'
+          )}
+        >
+          {isCollapsed ? (
+            /* Collapsed view: logo mark is perfectly centered, never clipped, click expands sidebar */
+            <button
+              onClick={onToggleCollapse}
+              className="w-10 h-10 rounded-[8px] bg-accent flex items-center justify-center shrink-0 text-white hover:opacity-90 transition-opacity cursor-pointer shadow-xs"
+              title="Expand sidebar"
+              aria-label="Expand sidebar"
+            >
               <svg
                 width="20"
                 height="20"
@@ -49,30 +58,47 @@ export const Sidebar = ({
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
-                <polygon points="12 2 2 7 12 12 22 7 12 2}" />
+                <polygon points="12 2 2 7 12 12 22 7 12 2" />
                 <polyline points="2 17 12 22 22 17" />
                 <polyline points="2 12 12 17 22 12" />
               </svg>
-            </div>
-            {!isCollapsed && (
-              <span className="font-semibold text-text-primary text-sm tracking-tight truncate">
-                Lead Manager
-              </span>
-            )}
-          </div>
+            </button>
+          ) : (
+            /* Expanded view: Logo + Title on left, collapse button on right */
+            <>
+              <div className="flex items-center gap-3 overflow-hidden min-w-0">
+                <div className="w-9 h-9 rounded-[8px] bg-accent flex items-center justify-center shrink-0 text-white shadow-xs">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                    <polyline points="2 17 12 22 22 17" />
+                    <polyline points="2 12 12 17 22 12" />
+                  </svg>
+                </div>
+                <span className="font-semibold text-text-primary text-sm tracking-tight truncate whitespace-nowrap">
+                  Lead Manager
+                </span>
+              </div>
 
-          {/* Desktop collapse toggle */}
-          <button
-            onClick={onToggleCollapse}
-            className="hidden lg:flex p-1.5 rounded-[6px] text-text-tertiary hover:text-text-primary hover:bg-surface-muted transition-colors"
-            aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-          >
-            {isCollapsed ? (
-              <ChevronRight className="w-4 h-4" strokeWidth={1.75} />
-            ) : (
-              <ChevronLeft className="w-4 h-4" strokeWidth={1.75} />
-            )}
-          </button>
+              {/* Desktop collapse toggle */}
+              <button
+                onClick={onToggleCollapse}
+                className="hidden lg:flex p-1.5 rounded-[6px] text-text-tertiary hover:text-text-primary hover:bg-surface-muted transition-colors shrink-0 cursor-pointer"
+                aria-label="Collapse sidebar"
+                title="Collapse sidebar"
+              >
+                <ChevronLeft className="w-4 h-4" strokeWidth={1.75} />
+              </button>
+            </>
+          )}
         </div>
 
         {/* Main Navigation */}
@@ -82,9 +108,11 @@ export const Sidebar = ({
               key={item.to}
               to={item.to}
               onClick={onCloseMobile}
+              title={isCollapsed ? item.label : undefined}
               className={({ isActive }) =>
                 cn(
                   'relative flex items-center gap-3 px-3 py-2.5 rounded-[8px] text-sm font-medium transition-colors',
+                  isCollapsed && 'justify-center px-0',
                   isActive
                     ? 'text-accent font-semibold bg-accent-soft'
                     : 'text-text-secondary hover:text-text-primary hover:bg-surface-muted'
@@ -102,7 +130,7 @@ export const Sidebar = ({
                     />
                   )}
                   <item.icon className="w-4 h-4 shrink-0" strokeWidth={1.75} />
-                  {!isCollapsed && <span className="truncate">{item.label}</span>}
+                  {!isCollapsed && <span className="truncate whitespace-nowrap">{item.label}</span>}
                 </>
               )}
             </NavLink>
@@ -117,9 +145,11 @@ export const Sidebar = ({
               key={item.to}
               to={item.to}
               onClick={onCloseMobile}
+              title={isCollapsed ? item.label : undefined}
               className={({ isActive }) =>
                 cn(
                   'relative flex items-center gap-3 px-3 py-2.5 rounded-[8px] text-sm font-medium transition-colors',
+                  isCollapsed && 'justify-center px-0',
                   isActive
                     ? 'text-accent font-semibold bg-accent-soft'
                     : 'text-text-secondary hover:text-text-primary hover:bg-surface-muted'
@@ -136,7 +166,7 @@ export const Sidebar = ({
                     />
                   )}
                   <item.icon className="w-4 h-4 shrink-0" strokeWidth={1.75} />
-                  {!isCollapsed && <span className="truncate">{item.label}</span>}
+                  {!isCollapsed && <span className="truncate whitespace-nowrap">{item.label}</span>}
                 </>
               )}
             </NavLink>
@@ -148,8 +178,8 @@ export const Sidebar = ({
       <div className="p-3 border-t border-border">
         <div
           className={cn(
-            'flex items-center gap-3 p-2 rounded-[8px] bg-surface-muted/60',
-            isCollapsed ? 'justify-center' : 'justify-between'
+            'flex items-center rounded-[8px] bg-surface-muted/60 transition-all',
+            isCollapsed ? 'justify-center p-2' : 'justify-between p-2 gap-3'
           )}
         >
           <div className="flex items-center gap-2.5 overflow-hidden">
@@ -157,7 +187,7 @@ export const Sidebar = ({
               {getInitials(user?.name)}
             </div>
             {!isCollapsed && (
-              <div className="truncate text-left">
+              <div className="truncate text-left min-w-0">
                 <p className="text-xs font-semibold text-text-primary truncate">
                   {user?.name || 'User'}
                 </p>
@@ -171,7 +201,7 @@ export const Sidebar = ({
           {!isCollapsed && onLogout && (
             <button
               onClick={onLogout}
-              className="p-1.5 rounded-[6px] text-text-tertiary hover:text-[#DC2626] hover:bg-surface transition-colors"
+              className="p-1.5 rounded-[6px] text-text-tertiary hover:text-[#DC2626] hover:bg-surface transition-colors shrink-0 cursor-pointer"
               title="Sign out"
               aria-label="Sign out"
             >

@@ -146,9 +146,9 @@ export const Leads = ({ onOpenAdd, onOpenEdit }) => {
   const meta = data?.meta || { total: 0, page: 1, limit: limitParam, totalPages: 1 };
 
   return (
-    <div className="flex-1 flex flex-col min-h-0 h-full space-y-4">
-      {/* Stationary Header: Title, count, and "+ Add lead" button pinned in place */}
-      <div className="shrink-0 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+    <div className="space-y-4">
+      {/* Top Header: Title, count, and "+ Add lead" button */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div className="flex items-center gap-2.5">
           <h2 className="text-xl sm:text-2xl font-semibold text-text-primary tracking-tight">
             Leads
@@ -167,25 +167,23 @@ export const Leads = ({ onOpenAdd, onOpenEdit }) => {
         </Button>
       </div>
 
-      {/* Main card containing Filters + Scrollable Table + Stationary Pagination */}
-      <div className="bg-surface border border-border rounded-[12px] flex flex-col flex-1 min-h-0 overflow-hidden shadow-xs">
-        <div className="shrink-0">
-          <LeadFilters
-            search={searchInput}
-            onSearchChange={setSearchInput}
-            status={statusParam}
-            onStatusChange={handleStatusChange}
-            source={sourceParam}
-            onSourceChange={handleSourceChange}
-            onClearFilters={handleClearFilters}
-            statusCounts={stats?.byStatus || {}}
-            totalCount={stats?.total || meta.total}
-          />
-        </div>
+      {/* Main card containing Filters + Table + Pagination (page naturally scrolls) */}
+      <div className="bg-surface border border-border rounded-[12px] overflow-hidden shadow-xs">
+        <LeadFilters
+          search={searchInput}
+          onSearchChange={setSearchInput}
+          status={statusParam}
+          onStatusChange={handleStatusChange}
+          source={sourceParam}
+          onSourceChange={handleSourceChange}
+          onClearFilters={handleClearFilters}
+          statusCounts={stats?.byStatus || {}}
+          totalCount={stats?.total || meta.total}
+        />
 
         {/* Loading Skeleton */}
         {isLoading && (
-          <div className="p-6 space-y-3 overflow-y-auto flex-1">
+          <div className="p-6 space-y-3">
             {[...Array(6)].map((_, i) => (
               <Skeleton key={i} className="h-12 w-full" />
             ))}
@@ -194,7 +192,7 @@ export const Leads = ({ onOpenAdd, onOpenEdit }) => {
 
         {/* Error State */}
         {!isLoading && isError && (
-          <div className="p-8 text-center flex flex-col items-center justify-center flex-1">
+          <div className="p-8 text-center flex flex-col items-center justify-center">
             <div className="w-10 h-10 rounded-[8px] bg-[#FCE6E3] dark:bg-[#3D1B18] text-[#DC2626] flex items-center justify-center mb-3">
               <AlertCircle className="w-5 h-5" strokeWidth={1.75} />
             </div>
@@ -217,37 +215,33 @@ export const Leads = ({ onOpenAdd, onOpenEdit }) => {
 
         {/* Empty State: Zero leads total */}
         {!isLoading && !isError && leads.length === 0 && !isFiltered && (
-          <div className="flex-1 flex items-center justify-center">
-            <EmptyState
-              icon={Users}
-              title="No leads yet"
-              description="Start building your pipeline by capturing your first sales lead."
-              actionLabel="Add lead"
-              actionIcon={UserPlus}
-              onAction={() => (onOpenAdd ? onOpenAdd() : navigate('/leads/new'))}
-              className="border-0 rounded-none py-16"
-            />
-          </div>
+          <EmptyState
+            icon={Users}
+            title="No leads yet"
+            description="Start building your pipeline by capturing your first sales lead."
+            actionLabel="Add lead"
+            actionIcon={UserPlus}
+            onAction={() => (onOpenAdd ? onOpenAdd() : navigate('/leads/new'))}
+            className="border-0 rounded-none py-16"
+          />
         )}
 
         {/* Empty State: Filters produced no results */}
         {!isLoading && !isError && leads.length === 0 && isFiltered && (
-          <div className="flex-1 flex items-center justify-center">
-            <EmptyState
-              icon={Users}
-              title="No matching leads"
-              description="No leads matched your current search filters. Try adjusting or clearing your filters."
-              actionLabel="Clear filters"
-              onAction={handleClearFilters}
-              className="border-0 rounded-none py-16"
-            />
-          </div>
+          <EmptyState
+            icon={Users}
+            title="No matching leads"
+            description="No leads matched your current search filters. Try adjusting or clearing your filters."
+            actionLabel="Clear filters"
+            onAction={handleClearFilters}
+            className="border-0 rounded-none py-16"
+          />
         )}
 
-        {/* Table data view: scrollable rows with pinned sticky thead */}
+        {/* Table data view */}
         {!isLoading && !isError && leads.length > 0 && (
           <>
-            <div className="flex-1 min-h-0 overflow-y-auto overflow-x-auto">
+            <div className="overflow-x-auto">
               <LeadsTable
                 leads={leads}
                 sortBy={sortByParam}
@@ -261,16 +255,14 @@ export const Leads = ({ onOpenAdd, onOpenEdit }) => {
               />
             </div>
 
-            <div className="shrink-0 border-t border-border bg-surface">
-              <Pagination
-                page={meta.page}
-                limit={meta.limit}
-                total={meta.total}
-                totalPages={meta.totalPages}
-                onPageChange={handlePageChange}
-                onLimitChange={handleLimitChange}
-              />
-            </div>
+            <Pagination
+              page={meta.page}
+              limit={meta.limit}
+              total={meta.total}
+              totalPages={meta.totalPages}
+              onPageChange={handlePageChange}
+              onLimitChange={handleLimitChange}
+            />
           </>
         )}
       </div>
