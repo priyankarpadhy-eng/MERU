@@ -8,8 +8,6 @@ import {
   Phone,
   Building2,
   Globe,
-  Copy,
-  Check,
   Calendar,
   Clock,
   FileText,
@@ -20,9 +18,9 @@ import { StatusBadge } from '../components/leads/StatusBadge';
 import { Button } from '../components/ui/Button';
 import { Skeleton } from '../components/ui/Skeleton';
 import { ConfirmDialog } from '../components/ui/ConfirmDialog';
+import { CopyButton } from '../components/ui/CopyButton';
 import { SOURCE_CONFIG } from '../lib/constants';
 import { formatDateTime, formatDate } from '../lib/utils';
-import { toast } from 'sonner';
 
 export const LeadDetail = ({ onOpenEdit }) => {
   const { id } = useParams();
@@ -32,18 +30,7 @@ export const LeadDetail = ({ onOpenEdit }) => {
   const updateLeadMutation = useUpdateLead();
   const deleteLeadMutation = useDeleteLead();
 
-  const [copiedField, setCopiedField] = useState(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-
-  const handleCopy = (field, text) => {
-    if (!text) return;
-    navigator.clipboard.writeText(text);
-    setCopiedField(field);
-    toast.info(`Copied ${field} to clipboard`);
-    setTimeout(() => {
-      setCopiedField(null);
-    }, 2000);
-  };
 
   const handleStatusChange = (newStatus) => {
     updateLeadMutation.mutate({
@@ -114,15 +101,17 @@ export const LeadDetail = ({ onOpenEdit }) => {
             <h1 className="text-2xl font-semibold text-text-primary tracking-tight">
               {lead.name}
             </h1>
+            <CopyButton text={lead.name} label="Name" variant="inline" />
             <StatusBadge
               status={lead.status}
               onChangeStatus={handleStatusChange}
             />
           </div>
-          <p className="text-xs text-text-secondary mt-1 flex items-center gap-1.5">
+          <div className="flex items-center gap-1.5 text-xs text-text-secondary mt-1">
             <Building2 className="w-3.5 h-3.5 text-text-tertiary" />
             <span>{lead.company}</span>
-          </p>
+            <CopyButton text={lead.company} label="Company" variant="inline" />
+          </div>
         </div>
 
         {/* Action buttons */}
@@ -158,7 +147,7 @@ export const LeadDetail = ({ onOpenEdit }) => {
 
           <div className="space-y-3.5">
             {/* Email */}
-            <div className="flex items-center justify-between p-3 rounded-[8px] bg-surface-muted/40 border border-border">
+            <div className="flex items-center justify-between p-3 rounded-[8px] bg-surface-muted/40 border border-border group/copy">
               <div className="flex items-center gap-3 overflow-hidden">
                 <div className="w-8 h-8 rounded-[6px] bg-surface flex items-center justify-center text-text-tertiary border border-border shrink-0">
                   <Mail className="w-4 h-4" strokeWidth={1.75} />
@@ -175,22 +164,11 @@ export const LeadDetail = ({ onOpenEdit }) => {
                   </a>
                 </div>
               </div>
-              <button
-                onClick={() => handleCopy('email', lead.email)}
-                className="p-1.5 rounded text-text-tertiary hover:text-text-primary transition-colors"
-                title="Copy email"
-                aria-label="Copy email"
-              >
-                {copiedField === 'email' ? (
-                  <Check className="w-4 h-4 text-accent" />
-                ) : (
-                  <Copy className="w-4 h-4" strokeWidth={1.75} />
-                )}
-              </button>
+              <CopyButton text={lead.email} label="Email address" variant="inline" />
             </div>
 
             {/* Phone */}
-            <div className="flex items-center justify-between p-3 rounded-[8px] bg-surface-muted/40 border border-border">
+            <div className="flex items-center justify-between p-3 rounded-[8px] bg-surface-muted/40 border border-border group/copy">
               <div className="flex items-center gap-3 overflow-hidden">
                 <div className="w-8 h-8 rounded-[6px] bg-surface flex items-center justify-center text-text-tertiary border border-border shrink-0">
                   <Phone className="w-4 h-4" strokeWidth={1.75} />
@@ -208,23 +186,12 @@ export const LeadDetail = ({ onOpenEdit }) => {
                 </div>
               </div>
               {lead.phone && (
-                <button
-                  onClick={() => handleCopy('phone', lead.phone)}
-                  className="p-1.5 rounded text-text-tertiary hover:text-text-primary transition-colors"
-                  title="Copy phone"
-                  aria-label="Copy phone"
-                >
-                  {copiedField === 'phone' ? (
-                    <Check className="w-4 h-4 text-accent" />
-                  ) : (
-                    <Copy className="w-4 h-4" strokeWidth={1.75} />
-                  )}
-                </button>
+                <CopyButton text={lead.phone} label="Phone number" variant="inline" />
               )}
             </div>
 
             {/* Company */}
-            <div className="flex items-center justify-between p-3 rounded-[8px] bg-surface-muted/40 border border-border">
+            <div className="flex items-center justify-between p-3 rounded-[8px] bg-surface-muted/40 border border-border group/copy">
               <div className="flex items-center gap-3 overflow-hidden">
                 <div className="w-8 h-8 rounded-[6px] bg-surface flex items-center justify-center text-text-tertiary border border-border shrink-0">
                   <Building2 className="w-4 h-4" strokeWidth={1.75} />
@@ -238,6 +205,7 @@ export const LeadDetail = ({ onOpenEdit }) => {
                   </span>
                 </div>
               </div>
+              <CopyButton text={lead.company} label="Company" variant="inline" />
             </div>
           </div>
         </div>
@@ -293,7 +261,7 @@ export const LeadDetail = ({ onOpenEdit }) => {
         </div>
       </div>
 
-      {/* Delete Confirmation */}
+      {/* Delete Confirmation Dialog requiring typed "delete" */}
       <ConfirmDialog
         isOpen={showDeleteConfirm}
         onClose={() => setShowDeleteConfirm(false)}
@@ -301,6 +269,7 @@ export const LeadDetail = ({ onOpenEdit }) => {
         title="Delete this lead?"
         itemName={lead.name}
         description="This action cannot be undone. All contact details and notes will be permanently removed."
+        expectedWord="delete"
         confirmLabel="Delete lead"
         isLoading={deleteLeadMutation.isPending}
       />

@@ -84,6 +84,7 @@ export const LeadDrawer = ({
         onConfirm={handleConfirmDiscard}
         title="Discard unsaved changes?"
         description="You have unsaved changes in this form. If you close now, your progress will be lost."
+        requireTyping={false}
         confirmLabel="Discard changes"
         cancelLabel="Keep editing"
       />

@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { StatusBadge } from './StatusBadge';
 import { LeadCard } from './LeadCard';
+import { CopyButton } from '../ui/CopyButton';
 import { SOURCE_CONFIG } from '../../lib/constants';
 import { formatDate } from '../../lib/utils';
 
@@ -37,7 +38,7 @@ export const LeadsTable = ({
   };
 
   return (
-    <div>
+    <div className="w-full">
       {/* Mobile view (<768px): Stacked LeadCards */}
       <div className="md:hidden space-y-3 p-4">
         {leads.map((lead) => (
@@ -55,8 +56,9 @@ export const LeadsTable = ({
       {/* Desktop / Tablet view (>=768px): Table */}
       <div className="hidden md:block overflow-x-auto">
         <table className="w-full text-left border-collapse">
-          <thead>
-            <tr className="border-b border-border bg-surface-muted/40 text-[11px] font-semibold text-text-secondary uppercase tracking-[0.04em] select-none">
+          {/* Sticky table header with solid background and bottom border: no cutoff */}
+          <thead className="sticky top-0 z-10 bg-surface border-b border-border shadow-xs">
+            <tr className="bg-surface-muted/60 text-[11px] font-semibold text-text-secondary uppercase tracking-[0.04em] select-none">
               <th
                 onClick={() => onSort('name')}
                 className="py-3 px-4 cursor-pointer hover:text-text-primary transition-colors"
@@ -127,24 +129,32 @@ export const LeadsTable = ({
                   onClick={() => onRowClick(lead.id)}
                   className="group bg-surface hover:bg-surface-muted/40 transition-colors cursor-pointer select-none text-xs"
                 >
-                  {/* Name + Email */}
+                  {/* Name + Email with hover copy buttons */}
                   <td className="py-3.5 px-4 font-medium text-text-primary">
-                    <div className="font-semibold text-text-primary">
-                      {lead.name}
+                    <div className="group/copy flex items-center gap-1.5">
+                      <span className="font-semibold text-text-primary">{lead.name}</span>
+                      <CopyButton text={lead.name} label="Name" />
                     </div>
-                    <div className="text-text-tertiary text-[11px] font-normal">
-                      {lead.email}
+                    <div className="group/copy flex items-center gap-1.5 text-text-tertiary text-[11px] font-normal">
+                      <span className="truncate">{lead.email}</span>
+                      <CopyButton text={lead.email} label="Email" />
                     </div>
                   </td>
 
-                  {/* Company */}
+                  {/* Company with hover copy button */}
                   <td className="py-3.5 px-4 text-text-secondary">
-                    {lead.company}
+                    <div className="group/copy flex items-center gap-1.5">
+                      <span>{lead.company}</span>
+                      <CopyButton text={lead.company} label="Company" />
+                    </div>
                   </td>
 
-                  {/* Phone (>=1024px) */}
+                  {/* Phone (>=1024px) with hover copy button */}
                   <td className="hidden lg:table-cell py-3.5 px-4 font-mono text-[11px] text-text-secondary">
-                    {lead.phone || '—'}
+                    <div className="group/copy flex items-center gap-1.5">
+                      <span>{lead.phone || '—'}</span>
+                      {lead.phone && <CopyButton text={lead.phone} label="Phone number" />}
+                    </div>
                   </td>
 
                   {/* Source */}
@@ -174,7 +184,7 @@ export const LeadsTable = ({
                     <div className="hidden lg:flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                       <button
                         onClick={() => onEdit(lead)}
-                        className="p-1.5 rounded-[6px] text-text-tertiary hover:text-text-primary hover:bg-surface-muted transition-colors"
+                        className="p-1.5 rounded-[6px] text-text-tertiary hover:text-text-primary hover:bg-surface-muted transition-colors cursor-pointer"
                         title="Edit lead"
                         aria-label="Edit lead"
                       >
@@ -182,7 +192,7 @@ export const LeadsTable = ({
                       </button>
                       <button
                         onClick={() => onDelete(lead)}
-                        className="p-1.5 rounded-[6px] text-text-tertiary hover:text-[#DC2626] hover:bg-[#FCE6E3] dark:hover:bg-[#3D1B18] transition-colors"
+                        className="p-1.5 rounded-[6px] text-text-tertiary hover:text-[#DC2626] hover:bg-[#FCE6E3] dark:hover:bg-[#3D1B18] transition-colors cursor-pointer"
                         title="Delete lead"
                         aria-label="Delete lead"
                       >

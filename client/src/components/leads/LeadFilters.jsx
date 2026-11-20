@@ -16,7 +16,7 @@ export const LeadFilters = ({
   const isFiltered = Boolean(search || status || source);
 
   return (
-    <div className="bg-surface border-b border-border py-3 px-4 sm:px-6 sticky top-16 z-10 flex flex-col gap-3">
+    <div className="bg-surface border-b border-border py-3 px-4 sm:px-6 flex flex-col gap-3">
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
         {/* Search input with debounced clearable control */}
         <div className="relative flex-1 max-w-md">
