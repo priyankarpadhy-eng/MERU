@@ -7,7 +7,6 @@ import {
   Mail,
   Phone,
   Building2,
-  Globe,
   Calendar,
   Clock,
   FileText,
@@ -15,12 +14,13 @@ import {
 } from 'lucide-react';
 import { useLead, useUpdateLead, useDeleteLead } from '../hooks/useLeads';
 import { StatusBadge } from '../components/leads/StatusBadge';
+import { SourceBadge } from '../components/leads/SourceBadge';
 import { Button } from '../components/ui/Button';
 import { Skeleton } from '../components/ui/Skeleton';
 import { ConfirmDialog } from '../components/ui/ConfirmDialog';
 import { CopyButton } from '../components/ui/CopyButton';
-import { SOURCE_CONFIG } from '../lib/constants';
-import { formatDateTime, formatDate } from '../lib/utils';
+import { CountryFlag } from '../components/ui/CountryFlag';
+import { formatDateTime, formatDate, getInitials, getAvatarColor, cn } from '../lib/utils';
 
 export const LeadDetail = ({ onOpenEdit }) => {
   const { id } = useParams();
@@ -94,23 +94,36 @@ export const LeadDetail = ({ onOpenEdit }) => {
         </span>
       </nav>
 
-      {/* Header bar with Status and Actions */}
+      {/* Header bar with Circular Avatar, Status and Actions */}
       <div className="p-5 sm:p-6 bg-surface border border-border rounded-[12px] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xs">
-        <div>
-          <div className="flex items-center gap-3">
-            <h1 className="text-2xl font-semibold text-text-primary tracking-tight">
-              {lead.name}
-            </h1>
-            <CopyButton text={lead.name} label="Name" variant="inline" />
-            <StatusBadge
-              status={lead.status}
-              onChangeStatus={handleStatusChange}
-            />
+        <div className="flex items-center gap-4">
+          {/* Circular avatar badge with initials */}
+          <div
+            className={cn(
+              'w-12 h-12 rounded-full border flex items-center justify-center shrink-0 text-sm font-semibold select-none shadow-xs',
+              getAvatarColor(lead.name)
+            )}
+            title={lead.name}
+          >
+            {getInitials(lead.name)}
           </div>
-          <div className="flex items-center gap-1.5 text-xs text-text-secondary mt-1">
-            <Building2 className="w-3.5 h-3.5 text-text-tertiary" />
-            <span>{lead.company}</span>
-            <CopyButton text={lead.company} label="Company" variant="inline" />
+
+          <div>
+            <div className="flex items-center gap-3">
+              <h1 className="text-2xl font-semibold text-text-primary tracking-tight">
+                {lead.name}
+              </h1>
+              <CopyButton text={lead.name} label="Name" variant="inline" />
+              <StatusBadge
+                status={lead.status}
+                onChangeStatus={handleStatusChange}
+              />
+            </div>
+            <div className="flex items-center gap-1.5 text-xs text-text-secondary mt-1">
+              <Building2 className="w-3.5 h-3.5 text-text-tertiary" />
+              <span>{lead.company}</span>
+              <CopyButton text={lead.company} label="Company" variant="inline" />
+            </div>
           </div>
         </div>
 
@@ -167,7 +180,7 @@ export const LeadDetail = ({ onOpenEdit }) => {
               <CopyButton text={lead.email} label="Email address" variant="inline" />
             </div>
 
-            {/* Phone */}
+            {/* Phone with Country Flag */}
             <div className="flex items-center justify-between p-3 rounded-[8px] bg-surface-muted/40 border border-border group/copy">
               <div className="flex items-center gap-3 overflow-hidden">
                 <div className="w-8 h-8 rounded-[6px] bg-surface flex items-center justify-center text-text-tertiary border border-border shrink-0">
@@ -177,12 +190,15 @@ export const LeadDetail = ({ onOpenEdit }) => {
                   <span className="text-[10px] text-text-tertiary uppercase block">
                     Phone number
                   </span>
-                  <a
-                    href={`tel:${lead.phone}`}
-                    className="text-xs font-mono font-medium text-text-primary hover:text-accent truncate block"
-                  >
-                    {lead.phone || '—'}
-                  </a>
+                  <div className="flex items-center gap-2 mt-0.5">
+                    <CountryFlag phone={lead.phone} />
+                    <a
+                      href={`tel:${lead.phone}`}
+                      className="text-xs font-mono font-medium text-text-primary hover:text-accent truncate block"
+                    >
+                      {lead.phone || '—'}
+                    </a>
+                  </div>
                 </div>
               </div>
               {lead.phone && (
@@ -218,13 +234,8 @@ export const LeadDetail = ({ onOpenEdit }) => {
 
           <div className="grid grid-cols-2 gap-3 text-xs">
             <div className="p-3 rounded-[8px] bg-surface-muted/40 border border-border">
-              <div className="flex items-center gap-1.5 text-text-tertiary mb-1">
-                <Globe className="w-3.5 h-3.5" />
-                <span className="text-[10px] uppercase">Source</span>
-              </div>
-              <p className="font-medium text-text-primary">
-                {SOURCE_CONFIG[lead.source]?.label || lead.source}
-              </p>
+              <span className="text-[10px] uppercase text-text-tertiary block mb-1.5">Source</span>
+              <SourceBadge source={lead.source} />
             </div>
 
             <div className="p-3 rounded-[8px] bg-surface-muted/40 border border-border">

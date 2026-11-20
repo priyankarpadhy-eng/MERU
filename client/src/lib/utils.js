@@ -53,3 +53,25 @@ export function getInitials(name = '') {
   if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 }
+
+/**
+ * Deterministic calm pastel avatar color generator based on lead name
+ */
+export function getAvatarColor(name = '') {
+  const palettes = [
+    'bg-[#E1F0EC] text-[#0F6B5C] border-[#B5DFD5] dark:bg-[#14302B] dark:text-[#3FB59F] dark:border-[#1E4D43]', // Teal brand
+    'bg-[#E6EEFD] text-[#1D4ED8] border-[#BFDBFE] dark:bg-[#16223F] dark:text-[#7BA2F7] dark:border-[#1E3A8A]', // Blue
+    'bg-[#FCF0DA] text-[#A15C07] border-[#FDE68A] dark:bg-[#3A2A10] dark:text-[#E8B25A] dark:border-[#78350F]', // Amber
+    'bg-[#DFF3E6] text-[#166534] border-[#BBF7D0] dark:bg-[#12301E] dark:text-[#6CCB8C] dark:border-[#14532D]', // Emerald
+    'bg-[#F3E8FF] text-[#7E22CE] border-[#E9D5FF] dark:bg-[#2E1A47] dark:text-[#C084FC] dark:border-[#581C87]', // Purple
+    'bg-[#FCE7F3] text-[#BE185D] border-[#FBCFE8] dark:bg-[#3B1229] dark:text-[#F472B6] dark:border-[#831843]', // Rose
+    'bg-[#E2E8F0] text-[#334155] border-[#CBD5E1] dark:bg-[#1E293B] dark:text-[#94A3B8] dark:border-[#334155]', // Slate
+  ];
+
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const index = Math.abs(hash) % palettes.length;
+  return palettes[index];
+}

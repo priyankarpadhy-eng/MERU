@@ -7,12 +7,14 @@ import {
   Pencil,
   Trash2,
   MoreHorizontal,
+  Building2,
 } from 'lucide-react';
 import { StatusBadge } from './StatusBadge';
+import { SourceBadge } from './SourceBadge';
 import { LeadCard } from './LeadCard';
 import { CopyButton } from '../ui/CopyButton';
-import { SOURCE_CONFIG } from '../../lib/constants';
-import { formatDate } from '../../lib/utils';
+import { CountryFlag } from '../ui/CountryFlag';
+import { formatDate, getInitials, getAvatarColor, cn } from '../../lib/utils';
 
 export const LeadsTable = ({
   leads = [],
@@ -56,7 +58,7 @@ export const LeadsTable = ({
       {/* Desktop / Tablet view (>=768px): Table */}
       <div className="hidden md:block overflow-x-auto">
         <table className="w-full text-left border-collapse">
-          {/* Table header with solid background and bottom border: clean, visible, no cutoff */}
+          {/* Table header with solid background and bottom border */}
           <thead className="bg-surface border-b border-border">
             <tr className="bg-surface-muted/50 text-[11px] font-semibold text-text-secondary uppercase tracking-[0.04em] select-none">
               <th
@@ -129,41 +131,64 @@ export const LeadsTable = ({
                   onClick={() => onRowClick(lead.id)}
                   className="group bg-surface hover:bg-surface-muted/40 transition-colors cursor-pointer select-none text-xs"
                 >
-                  {/* Name + Email with hover copy buttons */}
-                  <td className="py-3.5 px-4 font-medium text-text-primary">
-                    <div className="group/copy flex items-center gap-1.5">
-                      <span className="font-semibold text-text-primary">{lead.name}</span>
-                      <CopyButton text={lead.name} label="Name" />
-                    </div>
-                    <div className="group/copy flex items-center gap-1.5 text-text-tertiary text-[11px] font-normal">
-                      <span className="truncate">{lead.email}</span>
-                      <CopyButton text={lead.email} label="Email" />
+                  {/* Name + Email with Circular Initials Avatar on left */}
+                  <td className="py-3 px-4 font-medium text-text-primary">
+                    <div className="flex items-center gap-3">
+                      {/* Circular icon avatar with initials */}
+                      <div
+                        className={cn(
+                          'w-8 h-8 rounded-full border flex items-center justify-center shrink-0 text-xs font-semibold select-none shadow-xs',
+                          getAvatarColor(lead.name)
+                        )}
+                        title={lead.name}
+                      >
+                        {getInitials(lead.name)}
+                      </div>
+
+                      <div className="min-w-0">
+                        <div className="group/copy flex items-center gap-1.5">
+                          <span className="font-semibold text-text-primary truncate">
+                            {lead.name}
+                          </span>
+                          <CopyButton text={lead.name} label="Name" />
+                        </div>
+                        <div className="group/copy flex items-center gap-1.5 text-text-tertiary text-[11px] font-normal">
+                          <span className="truncate">{lead.email}</span>
+                          <CopyButton text={lead.email} label="Email" />
+                        </div>
+                      </div>
                     </div>
                   </td>
 
-                  {/* Company with hover copy button */}
-                  <td className="py-3.5 px-4 text-text-secondary">
+                  {/* Company with building icon & hover copy button */}
+                  <td className="py-3 px-4 text-text-secondary">
                     <div className="group/copy flex items-center gap-1.5">
-                      <span>{lead.company}</span>
+                      <Building2 className="w-3.5 h-3.5 text-text-tertiary shrink-0" strokeWidth={1.75} />
+                      <span className="font-medium text-text-secondary">{lead.company}</span>
                       <CopyButton text={lead.company} label="Company" />
                     </div>
                   </td>
 
-                  {/* Phone (>=1024px) with hover copy button */}
-                  <td className="hidden lg:table-cell py-3.5 px-4 font-mono text-[11px] text-text-secondary">
-                    <div className="group/copy flex items-center gap-1.5">
-                      <span>{lead.phone || '—'}</span>
-                      {lead.phone && <CopyButton text={lead.phone} label="Phone number" />}
-                    </div>
+                  {/* Phone (>=1024px) with Country Flag SVG & hover copy button */}
+                  <td className="hidden lg:table-cell py-3 px-4 font-mono text-[11px]">
+                    {lead.phone ? (
+                      <div className="group/copy flex items-center gap-2">
+                        <CountryFlag phone={lead.phone} />
+                        <span className="text-text-primary">{lead.phone}</span>
+                        <CopyButton text={lead.phone} label="Phone number" />
+                      </div>
+                    ) : (
+                      <span className="text-text-tertiary">—</span>
+                    )}
                   </td>
 
-                  {/* Source */}
-                  <td className="py-3.5 px-4 text-text-secondary text-[11px]">
-                    {SOURCE_CONFIG[lead.source]?.label || lead.source}
+                  {/* Source with proper official logo / icon (e.g. LinkedIn, Globe, Megaphone) */}
+                  <td className="py-3 px-4">
+                    <SourceBadge source={lead.source} />
                   </td>
 
                   {/* Status with popover */}
-                  <td className="py-3.5 px-4" onClick={(e) => e.stopPropagation()}>
+                  <td className="py-3 px-4" onClick={(e) => e.stopPropagation()}>
                     <StatusBadge
                       status={lead.status}
                       onChangeStatus={(newStatus) => onChangeStatus(lead.id, newStatus)}
@@ -171,13 +196,13 @@ export const LeadsTable = ({
                   </td>
 
                   {/* Created (>=1024px) */}
-                  <td className="hidden lg:table-cell py-3.5 px-4 font-mono text-[11px] text-text-tertiary">
+                  <td className="hidden lg:table-cell py-3 px-4 font-mono text-[11px] text-text-tertiary">
                     {formatDate(lead.createdAt)}
                   </td>
 
                   {/* Actions */}
                   <td
-                    className="py-3.5 px-4 text-right"
+                    className="py-3 px-4 text-right"
                     onClick={(e) => e.stopPropagation()}
                   >
                     {/* Desktop (>=1024px) Action Buttons */}
@@ -250,7 +275,7 @@ const TabletRowMenu = ({ lead, onEdit, onDelete }) => {
               setOpen(false);
               onEdit(lead);
             }}
-            className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-text-secondary hover:text-text-primary hover:bg-surface-muted text-left"
+            className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-text-secondary hover:text-text-primary hover:bg-surface-muted text-left cursor-pointer"
           >
             <Pencil className="w-3.5 h-3.5" strokeWidth={1.75} />
             <span>Edit</span>
@@ -260,7 +285,7 @@ const TabletRowMenu = ({ lead, onEdit, onDelete }) => {
               setOpen(false);
               onDelete(lead);
             }}
-            className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-[#DC2626] hover:bg-[#FCE6E3] dark:hover:bg-[#3D1B18] text-left"
+            className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-[#DC2626] hover:bg-[#FCE6E3] dark:hover:bg-[#3D1B18] text-left cursor-pointer"
           >
             <Trash2 className="w-3.5 h-3.5" strokeWidth={1.75} />
             <span>Delete</span>

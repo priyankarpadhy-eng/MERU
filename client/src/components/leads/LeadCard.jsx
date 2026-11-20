@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
-import { Mail, Phone, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
+import { Mail, Phone, MoreHorizontal, Pencil, Trash2, Building2 } from 'lucide-react';
 import { StatusBadge } from './StatusBadge';
+import { SourceBadge } from './SourceBadge';
 import { CopyButton } from '../ui/CopyButton';
-import { SOURCE_CONFIG } from '../../lib/constants';
-import { formatRelativeTime } from '../../lib/utils';
+import { CountryFlag } from '../ui/CountryFlag';
+import { formatRelativeTime, getInitials, getAvatarColor, cn } from '../../lib/utils';
 
 export const LeadCard = ({
   lead,
@@ -31,20 +32,34 @@ export const LeadCard = ({
       className="p-4 bg-surface border border-border rounded-[12px] flex flex-col gap-3 active:bg-surface-muted/40 transition-colors cursor-pointer select-none"
     >
       <div className="flex items-start justify-between gap-3">
-        <div>
-          <div className="group/copy flex items-center gap-1.5">
-            <h3 className="text-sm font-semibold text-text-primary leading-tight">
-              {lead.name}
-            </h3>
-            <CopyButton text={lead.name} label="Name" />
+        <div className="flex items-center gap-2.5 overflow-hidden">
+          {/* Circular icon avatar with initials */}
+          <div
+            className={cn(
+              'w-9 h-9 rounded-full border flex items-center justify-center shrink-0 text-xs font-semibold select-none shadow-xs',
+              getAvatarColor(lead.name)
+            )}
+            title={lead.name}
+          >
+            {getInitials(lead.name)}
           </div>
-          <div className="group/copy flex items-center gap-1.5 text-xs text-text-secondary mt-0.5">
-            <span>{lead.company}</span>
-            <CopyButton text={lead.company} label="Company" />
+
+          <div className="min-w-0">
+            <div className="group/copy flex items-center gap-1.5">
+              <h3 className="text-sm font-semibold text-text-primary leading-tight truncate">
+                {lead.name}
+              </h3>
+              <CopyButton text={lead.name} label="Name" />
+            </div>
+            <div className="group/copy flex items-center gap-1 text-xs text-text-secondary mt-0.5 truncate">
+              <Building2 className="w-3 h-3 text-text-tertiary shrink-0" />
+              <span className="truncate">{lead.company}</span>
+              <CopyButton text={lead.company} label="Company" />
+            </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-center gap-1.5 shrink-0" onClick={(e) => e.stopPropagation()}>
           <StatusBadge
             status={lead.status}
             onChangeStatus={(newStatus) => onChangeStatus(lead.id, newStatus)}
@@ -89,7 +104,7 @@ export const LeadCard = ({
       </div>
 
       <div className="flex items-center justify-between text-xs text-text-tertiary pt-2 border-t border-border">
-        <span>{SOURCE_CONFIG[lead.source]?.label || lead.source}</span>
+        <SourceBadge source={lead.source} />
         <span className="font-mono text-[11px]">{formatRelativeTime(lead.createdAt)}</span>
       </div>
 
@@ -101,6 +116,7 @@ export const LeadCard = ({
               href={`tel:${lead.phone}`}
               className="flex-1 h-9 rounded-[8px] bg-surface-muted text-text-secondary hover:text-text-primary hover:bg-surface-muted/80 flex items-center justify-center gap-1.5 text-xs font-medium border border-border transition-colors"
             >
+              <CountryFlag phone={lead.phone} />
               <Phone className="w-3.5 h-3.5" strokeWidth={1.75} />
               <span>Call</span>
             </a>
