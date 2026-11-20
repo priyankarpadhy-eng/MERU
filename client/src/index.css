@@ -1,0 +1,120 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Light Theme */
+  --color-bg: #F6F5F1;
+  --color-surface: #FFFFFF;
+  --color-surface-muted: #EFEDE7;
+  --color-border: #E3E0D8;
+  --color-text-primary: #17181A;
+  --color-text-secondary: #5E6066;
+  --color-text-tertiary: #8D8F95;
+  --color-accent: #0F6B5C;
+  --color-accent-hover: #0B574B;
+  --color-accent-soft: #E1F0EC;
+
+  /* Status Colors (Light) */
+  --status-new-bg: #E6EEFD;
+  --status-new-text: #1D4ED8;
+  --status-new-dot: #2563EB;
+
+  --status-contacted-bg: #FCF0DA;
+  --status-contacted-text: #A15C07;
+  --status-contacted-dot: #D97706;
+
+  --status-qualified-bg: #DFF3E6;
+  --status-qualified-text: #166534;
+  --status-qualified-dot: #16A34A;
+
+  --status-lost-bg: #FCE6E3;
+  --status-lost-text: #B42318;
+  --status-lost-dot: #DC2626;
+}
+
+.dark {
+  /* Dark Theme */
+  --color-bg: #0F1110;
+  --color-surface: #171A19;
+  --color-surface-muted: #1E2221;
+  --color-border: #2A2F2D;
+  --color-text-primary: #ECEDEA;
+  --color-text-secondary: #A3A8A5;
+  --color-text-tertiary: #6D726F;
+  --color-accent: #3FB59F;
+  --color-accent-hover: #4FD2BA;
+  --color-accent-soft: #14302B;
+
+  /* Status Colors (Dark) */
+  --status-new-bg: #16223F;
+  --status-new-text: #7BA2F7;
+  --status-new-dot: #60A5FA;
+
+  --status-contacted-bg: #3A2A10;
+  --status-contacted-text: #E8B25A;
+  --status-contacted-dot: #FBBF24;
+
+  --status-qualified-bg: #12301E;
+  --status-qualified-text: #6CCB8C;
+  --status-qualified-dot: #4ADE80;
+
+  --status-lost-bg: #3D1B18;
+  --status-lost-text: #F08A80;
+  --status-lost-dot: #F87171;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.6;
+    letter-spacing: -0.01em;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    font-weight: 600;
+  }
+
+  /* Form controls focus ring */
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible,
+  button:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-tertiary);
+}
