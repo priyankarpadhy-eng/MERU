@@ -71,15 +71,15 @@ export const ConfirmDialog = ({
         {/* Pre-written keyword with one-click copy button and input (if requireTyping is enabled) */}
         {requireTyping && (
           <>
-            <div className="flex items-center justify-between p-2.5 rounded-[8px] bg-surface-muted/60 border border-border">
+            <div className="flex items-center justify-between p-2.5 rounded-[8px] bg-surface-muted/60 dark:bg-[#1A201E] border border-border dark:border-[#2C3833]">
               <div className="flex items-center gap-2">
-                <span className="text-xs text-text-secondary">Type to confirm:</span>
-                <code className="font-mono text-xs font-semibold px-2 py-0.5 rounded-[4px] bg-surface text-text-primary border border-border select-all">
+                <span className="text-xs text-text-secondary dark:text-[#A0ABA5]">Type to confirm:</span>
+                <code className="font-mono text-xs font-semibold px-2 py-0.5 rounded-[4px] bg-surface dark:bg-[#141816] text-text-primary dark:text-[#ECEDEA] border border-border dark:border-[#2C3833] select-all">
                   {expectedWord}
                 </code>
               </div>
               <div className="flex items-center gap-1.5">
-                <span className="text-[11px] text-text-tertiary">Copy text</span>
+                <span className="text-[11px] text-text-tertiary dark:text-[#88948E]">Copy text</span>
                 <CopyButton
                   text={expectedWord}
                   label={`"${expectedWord}" confirmation word`}

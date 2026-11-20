@@ -23,17 +23,17 @@ export const Button = forwardRef(
 
     const variants = {
       primary:
-        'bg-accent text-white hover:bg-accent-hover shadow-sm active:bg-accent-hover',
+        'bg-accent text-white dark:text-[#061512] font-semibold hover:bg-accent-hover shadow-sm active:bg-accent-hover',
       secondary:
-        'bg-surface text-text-primary border border-border hover:bg-surface-muted active:bg-surface-muted',
+        'bg-surface dark:bg-[#1A201E] text-text-primary dark:text-[#ECEDEA] border border-border dark:border-[#2C3833] hover:bg-surface-muted dark:hover:bg-[#222B27] active:bg-surface-muted dark:active:bg-[#222B27]',
       outline:
-        'bg-transparent text-text-primary border border-border hover:bg-surface-muted active:bg-surface-muted',
+        'bg-transparent text-text-primary dark:text-[#ECEDEA] border border-border dark:border-[#2C3833] hover:bg-surface-muted dark:hover:bg-[#1F2623] active:bg-surface-muted dark:active:bg-[#1F2623]',
       ghost:
-        'bg-transparent text-text-secondary hover:text-text-primary hover:bg-surface-muted active:bg-surface-muted',
+        'bg-transparent text-text-secondary dark:text-[#9DA6A0] hover:text-text-primary dark:hover:text-[#ECEDEA] hover:bg-surface-muted dark:hover:bg-[#1F2623] active:bg-surface-muted dark:active:bg-[#1F2623]',
       destructive:
         'bg-[#DC2626] text-white hover:bg-[#B91C1C] active:bg-[#991B1B]',
       destructiveOutline:
-        'bg-transparent text-[#DC2626] border border-[#FECACA] hover:bg-[#FCE6E3] dark:border-[#7F1D1D] dark:hover:bg-[#3D1B18]',
+        'bg-transparent text-[#DC2626] border border-[#FECACA] hover:bg-[#FCE6E3] dark:text-[#F87171] dark:border-[#5C2320] dark:hover:bg-[#3D1B18]',
     };
 
     const sizes = {

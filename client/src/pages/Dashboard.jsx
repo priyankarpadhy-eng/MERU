@@ -155,10 +155,10 @@ export const Dashboard = ({ onOpenAddLead }) => {
           <button
             type="button"
             onClick={handleExportCSV}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-medium text-text-primary bg-surface border border-border rounded-full hover:bg-surface-muted transition-colors shadow-xs"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-text-primary dark:text-[#ECEDEA] bg-surface dark:bg-[#1A201E] border border-border dark:border-[#2C3833] rounded-full hover:bg-surface-muted dark:hover:bg-[#222B27] transition-colors shadow-xs cursor-pointer"
             title="Download leads as CSV"
           >
-            <Download className="w-3.5 h-3.5 text-text-tertiary" />
+            <Download className="w-3.5 h-3.5 text-text-tertiary dark:text-[#88948E]" />
             <span>Export CSV</span>
           </button>
 
@@ -237,13 +237,13 @@ export const Dashboard = ({ onOpenAddLead }) => {
               </p>
             </div>
           </div>
-          <span className="text-xs font-mono font-medium text-text-secondary bg-surface-muted px-2.5 py-1 rounded-full border border-border">
+          <span className="text-xs font-mono font-medium text-text-secondary dark:text-[#A0ABA5] bg-surface-muted dark:bg-[#1A201E] px-2.5 py-1 rounded-full border border-border dark:border-[#2C3833]">
             {total} leads total
           </span>
         </div>
 
         {/* Stacked Horizontal Long Bar */}
-        <div className="h-5 w-full bg-surface-muted rounded-full overflow-hidden flex p-0.5 gap-0.5 border border-border/40">
+        <div className="h-5 w-full bg-surface-muted dark:bg-[#1A201E] rounded-full overflow-hidden flex p-0.5 gap-0.5 border border-border/60 dark:border-[#2C3833]">
           {STATUS_LIST.map((key) => {
             const count = byStatus[key] || 0;
             const pct = getPercentage(count);
@@ -266,7 +266,7 @@ export const Dashboard = ({ onOpenAddLead }) => {
         </div>
 
         {/* Interactive Legend with click-to-filter */}
-        <div className="flex flex-wrap items-center gap-3 sm:gap-6 mt-4 pt-3 border-t border-border text-xs">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-4 mt-4 pt-3 border-t border-border dark:border-[#28302D] text-xs">
           {STATUS_LIST.map((key) => {
             const count = byStatus[key] || 0;
             const pct = getPercentage(count);
@@ -277,17 +277,17 @@ export const Dashboard = ({ onOpenAddLead }) => {
                 type="button"
                 key={key}
                 onClick={() => navigate(`/leads?status=${key}`)}
-                className="inline-flex items-center gap-2 px-2.5 py-1 rounded-lg hover:bg-surface-muted transition-colors text-left"
+                className="inline-flex items-center gap-2 px-2.5 py-1 rounded-lg border border-transparent hover:border-border/60 dark:hover:border-[#2C3833] hover:bg-surface-muted dark:hover:bg-[#1A201E] transition-all text-left cursor-pointer"
                 title={`Filter leads by ${config.label}`}
               >
                 <span
-                  className="w-2.5 h-2.5 rounded-full shrink-0 ring-1 ring-black/10 dark:ring-white/10"
+                  className="w-2.5 h-2.5 rounded-full shrink-0 ring-1 ring-black/10 dark:ring-white/20"
                   style={{ backgroundColor: config.colorHex }}
                 />
-                <span className="text-text-secondary font-medium">
+                <span className="text-text-secondary dark:text-[#A0ABA5] font-medium">
                   {config.label}
                 </span>
-                <span className="font-mono text-text-tertiary text-[11px]">
+                <span className="font-mono text-text-tertiary dark:text-[#76837D] text-[11px]">
                   {count} ({pct}%)
                 </span>
               </button>

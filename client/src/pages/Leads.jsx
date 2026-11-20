@@ -179,10 +179,10 @@ export const Leads = ({ onOpenAdd, onOpenEdit }) => {
       {/* Top Header: Title, count, and action buttons */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div className="flex items-center gap-2.5">
-          <h1 className="text-2xl sm:text-3xl font-bold text-text-primary tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-bold text-text-primary dark:text-[#ECEDEA] tracking-tight">
             Leads
           </h1>
-          <span className="font-mono text-xs px-2.5 py-0.5 rounded-full bg-surface-muted text-text-secondary border border-border">
+          <span className="font-mono text-xs px-2.5 py-0.5 rounded-full bg-surface-muted dark:bg-[#1A201E] text-text-secondary dark:text-[#A0ABA5] border border-border dark:border-[#2C3833]">
             {meta.total}
           </span>
         </div>
@@ -192,9 +192,9 @@ export const Leads = ({ onOpenAdd, onOpenEdit }) => {
           <button
             type="button"
             onClick={handleExportCSV}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-border bg-surface text-text-primary text-xs font-semibold hover:bg-surface-muted shadow-xs transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-border dark:border-[#2C3833] bg-surface dark:bg-[#1A201E] text-text-primary dark:text-[#ECEDEA] text-xs font-semibold hover:bg-surface-muted dark:hover:bg-[#222B27] shadow-xs transition-colors cursor-pointer"
           >
-            <Download className="w-3.5 h-3.5 text-text-secondary" />
+            <Download className="w-3.5 h-3.5 text-text-secondary dark:text-[#88948E]" />
             <span>Export CSV</span>
           </button>
 
