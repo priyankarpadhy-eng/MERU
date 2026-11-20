@@ -19,4 +19,9 @@ export const authApi = {
     const res = await apiClient.get('/auth/me');
     return res.data.user;
   },
+
+  async updateMe(data) {
+    const res = await apiClient.patch('/auth/me', data);
+    return res.data.user;
+  },
 };

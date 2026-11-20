@@ -1,16 +1,16 @@
 import { useState, useMemo } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { UserPlus, Users, AlertCircle, RefreshCw } from 'lucide-react';
-import { useLeads, useUpdateLead, useDeleteLead } from '../../hooks/useLeads';
-import { useStats } from '../../hooks/useStats';
-import { useDebounce } from '../../hooks/useDebounce';
-import { LeadsTable } from '../../components/leads/LeadsTable';
-import { LeadFilters } from '../../components/leads/LeadFilters';
-import { Pagination } from '../../components/ui/Pagination';
-import { Button } from '../../components/ui/Button';
-import { Skeleton } from '../../components/ui/Skeleton';
-import { EmptyState } from '../../components/ui/EmptyState';
-import { ConfirmDialog } from '../../components/ui/ConfirmDialog';
+import { useLeads, useUpdateLead, useDeleteLead } from '../hooks/useLeads';
+import { useStats } from '../hooks/useStats';
+import { useDebounce } from '../hooks/useDebounce';
+import { LeadsTable } from '../components/leads/LeadsTable';
+import { LeadFilters } from '../components/leads/LeadFilters';
+import { Pagination } from '../components/ui/Pagination';
+import { Button } from '../components/ui/Button';
+import { Skeleton } from '../components/ui/Skeleton';
+import { EmptyState } from '../components/ui/EmptyState';
+import { ConfirmDialog } from '../components/ui/ConfirmDialog';
 
 export const Leads = ({ onOpenAdd, onOpenEdit }) => {
   const [searchParams, setSearchParams] = useSearchParams();

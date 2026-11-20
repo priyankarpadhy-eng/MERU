@@ -86,4 +86,20 @@ export const authService = {
 
     return user;
   },
+
+  async updateMe(userId, { name }) {
+    const user = await prisma.user.update({
+      where: { id: userId },
+      data: { name },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    return user;
+  },
 };
