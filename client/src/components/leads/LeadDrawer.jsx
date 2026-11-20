@@ -69,6 +69,7 @@ export const LeadDrawer = ({
         }
       >
         <LeadForm
+          key={lead?.id || 'new'}
           lead={lead}
           onSubmit={handleSubmit}
           onCancel={handleRequestClose}

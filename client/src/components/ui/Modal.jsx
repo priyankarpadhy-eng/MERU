@@ -40,23 +40,23 @@ export const Modal = ({
           role="dialog"
           aria-modal="true"
         >
-          {/* Dimmed backdrop overlay (no glassmorphism/blur per design rules) */}
+          {/* Calm, tinted backdrop overlay with fluid easing */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/40"
+            className="fixed inset-0 bg-neutral-900/20 dark:bg-black/55 transition-colors"
           />
 
-          {/* Modal dialog */}
+          {/* Modal dialog with smooth micro-scale and elevation shadow */}
           <motion.div
             ref={modalRef}
-            initial={{ opacity: 0, scale: 0.98, y: 8 }}
+            initial={{ opacity: 0, scale: 0.97, y: 6 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.98, y: 8 }}
-            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            exit={{ opacity: 0, scale: 0.97, y: 6 }}
+            transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
             className={cn(
               'relative w-full bg-surface border border-border rounded-[12px] shadow-floating z-10 overflow-hidden',
               maxWidth,
@@ -67,7 +67,7 @@ export const Modal = ({
               <div className="flex items-start justify-between p-5 border-b border-border">
                 <div>
                   {title && (
-                    <h3 className="text-base font-semibold text-text-primary">
+                    <h3 className="text-base font-semibold text-text-primary tracking-tight">
                       {title}
                     </h3>
                   )}
@@ -78,7 +78,7 @@ export const Modal = ({
                 {onClose && (
                   <button
                     onClick={onClose}
-                    className="p-1 rounded-md text-text-tertiary hover:text-text-primary hover:bg-surface-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                    className="p-1 rounded-md text-text-tertiary hover:text-text-primary hover:bg-surface-muted transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
                     aria-label="Close dialog"
                   >
                     <X className="w-4 h-4" strokeWidth={1.75} />

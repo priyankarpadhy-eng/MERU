@@ -109,10 +109,10 @@ export const AppShell = ({ children, title = 'Lead Manager' }) => {
         {/* Page body viewport: smooth scrolling region for all pages */}
         <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 max-w-layout w-full mx-auto pb-20 md:pb-8">
           <motion.div
-            key={location.pathname}
+            key={location.pathname.startsWith('/leads') ? '/leads' : location.pathname}
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
             className="w-full"
           >
             {children}

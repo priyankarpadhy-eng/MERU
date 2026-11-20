@@ -35,8 +35,10 @@ const LeadsWithDrawer = () => {
     if (isNew) {
       setActiveLead(null);
       setDrawerOpen(true);
-    } else if (isEdit && leadToEdit) {
-      setActiveLead(leadToEdit);
+    } else if (isEdit) {
+      if (leadToEdit) {
+        setActiveLead(leadToEdit);
+      }
       setDrawerOpen(true);
     } else if (!isNew && !isEdit) {
       setDrawerOpen(false);
@@ -53,10 +55,14 @@ const LeadsWithDrawer = () => {
   };
 
   const handleOpenAdd = () => {
+    setActiveLead(null);
+    setDrawerOpen(true);
     navigate('/leads/new');
   };
 
   const handleOpenEdit = (lead) => {
+    setActiveLead(lead);
+    setDrawerOpen(true);
     navigate(`/leads/${lead.id}/edit`);
   };
 

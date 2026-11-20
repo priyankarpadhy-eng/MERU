@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { motion } from 'framer-motion';
 import { AlertTriangle } from 'lucide-react';
 import { leadFormSchema } from '../../lib/validators';
 import { SOURCE_LIST, SOURCE_CONFIG, STATUS_LIST, STATUS_CONFIG } from '../../lib/constants';
@@ -29,13 +30,13 @@ export const LeadForm = ({
   } = useForm({
     resolver: zodResolver(leadFormSchema),
     defaultValues: {
-      name: '',
-      email: '',
-      phone: '',
-      company: '',
-      source: 'WEBSITE',
-      status: 'NEW',
-      notes: '',
+      name: lead?.name || '',
+      email: lead?.email || '',
+      phone: lead?.phone || '',
+      company: lead?.company || '',
+      source: lead?.source || 'WEBSITE',
+      status: lead?.status || 'NEW',
+      notes: lead?.notes || '',
     },
     mode: 'onBlur',
   });
@@ -45,7 +46,7 @@ export const LeadForm = ({
     if (onDirtyChange) onDirtyChange(isDirty);
   }, [isDirty, onDirtyChange]);
 
-  // Reset form with lead data when editing
+  // Sync form values when lead changes
   useEffect(() => {
     if (lead) {
       reset({
@@ -56,16 +57,6 @@ export const LeadForm = ({
         source: lead.source || 'WEBSITE',
         status: lead.status || 'NEW',
         notes: lead.notes || '',
-      });
-    } else {
-      reset({
-        name: '',
-        email: '',
-        phone: '',
-        company: '',
-        source: 'WEBSITE',
-        status: 'NEW',
-        notes: '',
       });
     }
   }, [lead, reset]);
@@ -96,7 +87,14 @@ export const LeadForm = ({
   }));
 
   return (
-    <form id="lead-form" onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
+    <motion.form
+      id="lead-form"
+      initial={{ opacity: 0, y: 4 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+      onSubmit={handleSubmit(handleFormSubmit)}
+      className="space-y-4"
+    >
       {/* 2-column on desktop, single-column on mobile */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="sm:col-span-2">
@@ -166,9 +164,9 @@ export const LeadForm = ({
                 type="button"
                 onClick={() => setValue('status', key, { shouldDirty: true })}
                 className={cn(
-                  'flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-[8px] text-xs font-medium border transition-all text-center',
+                  'flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-[8px] text-xs font-medium border transition-colors duration-150 text-center cursor-pointer select-none focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent',
                   isSelected
-                    ? `${config.bgClass} font-semibold ring-1 ring-accent/30`
+                    ? `${config.bgClass} font-semibold ring-1 ring-accent/20`
                     : 'bg-surface border-border text-text-secondary hover:bg-surface-muted hover:text-text-primary'
                 )}
               >
@@ -198,7 +196,7 @@ export const LeadForm = ({
           maxLength={500}
           placeholder="Add context, conversation notes, or next steps..."
           className={cn(
-            'w-full px-3 py-2 bg-surface text-text-primary text-xs rounded-[8px] border transition-colors',
+            'w-full px-3 py-2 bg-surface text-text-primary text-xs rounded-[8px] border transition-colors duration-150',
             'placeholder:text-text-tertiary focus:border-accent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent resize-none',
             errors.notes ? 'border-[#DC2626]' : 'border-border hover:border-text-tertiary'
           )}
@@ -230,6 +228,6 @@ export const LeadForm = ({
           {isEdit ? 'Save changes' : 'Save lead'}
         </Button>
       </div>
-    </form>
+    </motion.form>
   );
 };
