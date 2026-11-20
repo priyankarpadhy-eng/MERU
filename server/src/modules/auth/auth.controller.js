@@ -27,7 +27,13 @@ export const authController = {
   }),
 
   logout: asyncHandler(async (_req, res) => {
-    res.clearCookie('token', getCookieOptions());
+    const isProduction = env.NODE_ENV === 'production';
+    res.clearCookie('token', {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? 'none' : 'lax',
+      path: '/',
+    });
     res.status(204).send();
   }),
 
