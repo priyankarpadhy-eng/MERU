@@ -48,9 +48,11 @@ app.get('/health', (_req, res) => {
 
 // App routing placeholder (mounted in auth/leads modules)
 import authRoutes from './modules/auth/auth.routes.js';
+import leadsRoutes from './modules/leads/leads.routes.js';
 
 export const apiRouter = express.Router();
 apiRouter.use('/auth', authRoutes);
+apiRouter.use('/leads', leadsRoutes);
 
 app.use('/api/v1', apiRouter);
 
