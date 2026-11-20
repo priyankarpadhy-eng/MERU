@@ -6,7 +6,6 @@ import {
   User,
   LogOut,
   ChevronLeft,
-  ChevronDown,
   Globe,
   Linkedin,
   PhoneCall,
@@ -115,26 +114,6 @@ export const Sidebar = ({
             </>
           )}
         </div>
-
-        {/* Workspace Selector Pill (inspired by reference image) */}
-        {!isCollapsed && (
-          <div className="px-3 pt-3 pb-1">
-            <button
-              type="button"
-              className="w-full flex items-center justify-between px-3 py-2 rounded-[12px] bg-surface-muted/60 border border-border/80 text-xs text-text-primary hover:bg-surface-muted transition-colors cursor-pointer"
-            >
-              <div className="flex items-center gap-2 overflow-hidden min-w-0">
-                <div className="w-5 h-5 rounded-[4px] bg-accent text-white flex items-center justify-center font-bold text-[10px] shrink-0">
-                  LM
-                </div>
-                <span className="font-semibold text-text-primary truncate">
-                  {user?.name ? `${user.name.split(' ')[0]}'s Pipeline` : "Sales Pipeline"}
-                </span>
-              </div>
-              <ChevronDown className="w-3.5 h-3.5 text-text-tertiary shrink-0" />
-            </button>
-          </div>
-        )}
 
         {/* Main Navigation (Active pill: Solid black pill matching reference image) */}
         <nav className="p-3 space-y-1">
