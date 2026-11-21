@@ -6,11 +6,6 @@ import {
   User,
   LogOut,
   ChevronLeft,
-  Globe,
-  Linkedin,
-  PhoneCall,
-  Sparkles,
-  Plus,
 } from 'lucide-react';
 import { cn, getInitials } from '../../lib/utils';
 
@@ -30,18 +25,11 @@ export const Sidebar = ({
     { label: 'Profile', to: '/profile', icon: User },
   ];
 
-  const dataSources = [
-    { name: 'LinkedIn', icon: Linkedin, color: 'text-[#0A66C2]', status: 'Connected' },
-    { name: 'Website', icon: Globe, color: 'text-[#0F6B5C] dark:text-[#3FB59F]', status: 'Connected' },
-    { name: 'HubSpot', icon: Sparkles, color: 'text-[#D97706]', status: 'Connected' },
-    { name: 'Cold outreach', icon: PhoneCall, color: 'text-[#2563EB]', status: 'Connected' },
-  ];
-
   return (
     <aside
       className={cn(
         'h-full bg-surface flex flex-col justify-between transition-all duration-200 select-none overflow-hidden',
-        isCollapsed ? 'w-[72px]' : 'w-64'
+        isCollapsed ? 'w-[72px]' : 'w-56'
       )}
     >
       <div>
@@ -49,7 +37,7 @@ export const Sidebar = ({
         <div
           className={cn(
             'h-16 flex items-center border-b border-border transition-all duration-200 overflow-hidden',
-            isCollapsed ? 'justify-center px-0' : 'justify-between px-4'
+            isCollapsed ? 'justify-center px-0' : 'justify-between px-3.5'
           )}
         >
           {isCollapsed ? (
@@ -78,11 +66,11 @@ export const Sidebar = ({
           ) : (
             /* Expanded view: Logo + Title on left, collapse button on right */
             <>
-              <div className="flex items-center gap-3 overflow-hidden min-w-0">
-                <div className="w-9 h-9 rounded-[10px] bg-accent flex items-center justify-center shrink-0 text-white shadow-xs">
+              <div className="flex items-center gap-2.5 overflow-hidden min-w-0">
+                <div className="w-8 h-8 rounded-[8px] bg-accent flex items-center justify-center shrink-0 text-white shadow-xs">
                   <svg
-                    width="20"
-                    height="20"
+                    width="18"
+                    height="18"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -95,8 +83,8 @@ export const Sidebar = ({
                     <polyline points="2 12 12 17 22 12" />
                   </svg>
                 </div>
-                <div className="flex items-baseline gap-1.5">
-                  <span className="font-bold text-text-primary text-base tracking-tight truncate whitespace-nowrap">
+                <div className="flex items-baseline gap-1.5 min-w-0">
+                  <span className="font-bold text-text-primary text-[15px] tracking-tight truncate whitespace-nowrap">
                     Lead Manager
                   </span>
                 </div>
@@ -116,7 +104,7 @@ export const Sidebar = ({
         </div>
 
         {/* Main Navigation (Active pill: Solid black pill matching reference image) */}
-        <nav className="p-3 space-y-1">
+        <nav className="p-2.5 space-y-1">
           {navItems.map((item) => (
             <NavLink
               key={item.to}
@@ -125,7 +113,7 @@ export const Sidebar = ({
               title={isCollapsed ? item.label : undefined}
               className={({ isActive }) =>
                 cn(
-                  'relative flex items-center gap-3 px-3.5 py-2.5 rounded-full text-xs font-semibold transition-all duration-150',
+                  'relative flex items-center gap-2.5 px-3 py-2 rounded-full text-xs font-semibold transition-all duration-150',
                   isCollapsed && 'justify-center px-0 rounded-[10px]',
                   isActive
                     ? 'bg-[#121614] text-white dark:bg-white dark:text-[#121614] shadow-xs'
@@ -154,7 +142,7 @@ export const Sidebar = ({
               title={isCollapsed ? item.label : undefined}
               className={({ isActive }) =>
                 cn(
-                  'relative flex items-center gap-3 px-3.5 py-2.5 rounded-full text-xs font-semibold transition-all duration-150',
+                  'relative flex items-center gap-2.5 px-3 py-2 rounded-full text-xs font-semibold transition-all duration-150',
                   isCollapsed && 'justify-center px-0 rounded-[10px]',
                   isActive
                     ? 'bg-[#121614] text-white dark:bg-white dark:text-[#121614] shadow-xs'
@@ -171,58 +159,26 @@ export const Sidebar = ({
             </NavLink>
           ))}
         </nav>
-
-        {/* Data Sources / Integrations list (From reference design) */}
-        {!isCollapsed && (
-          <div className="px-3 pt-3">
-            <div className="flex items-center justify-between text-[10px] font-semibold text-text-tertiary uppercase tracking-wider px-2 mb-2">
-              <span>Data sources</span>
-              <button
-                type="button"
-                className="p-0.5 rounded hover:text-text-primary hover:bg-surface-muted"
-                title="Manage integrations"
-              >
-                <Plus className="w-3 h-3" />
-              </button>
-            </div>
-            <div className="space-y-1">
-              {dataSources.map((ds) => (
-                <div
-                  key={ds.name}
-                  className="flex items-center justify-between px-2.5 py-1.5 rounded-[8px] hover:bg-surface-muted/50 transition-colors text-xs"
-                >
-                  <div className="flex items-center gap-2">
-                    <ds.icon className={cn('w-3.5 h-3.5 shrink-0', ds.color)} strokeWidth={1.8} />
-                    <span className="text-text-primary font-medium text-[11px]">{ds.name}</span>
-                  </div>
-                  <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium">
-                    {ds.status}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Bottom User Profile Section */}
-      <div className="p-3 border-t border-border">
+      <div className="p-2.5 border-t border-border">
         <div
           className={cn(
             'flex items-center rounded-[12px] bg-surface-muted/60 transition-all',
-            isCollapsed ? 'justify-center p-2' : 'justify-between p-2 gap-3'
+            isCollapsed ? 'justify-center p-2' : 'justify-between p-2 gap-2'
           )}
         >
-          <div className="flex items-center gap-2.5 overflow-hidden">
+          <div className="flex items-center gap-2 overflow-hidden min-w-0">
             <div className="w-8 h-8 rounded-full bg-accent-soft text-accent font-semibold text-xs flex items-center justify-center shrink-0">
               {getInitials(user?.name)}
             </div>
             {!isCollapsed && (
               <div className="truncate text-left min-w-0">
-                <p className="text-xs font-semibold text-text-primary truncate">
+                <p className="text-xs font-semibold text-text-primary truncate leading-tight">
                   {user?.name || 'User'}
                 </p>
-                <p className="text-[11px] text-text-tertiary truncate">
+                <p className="text-[11px] text-text-tertiary truncate leading-tight mt-0.5">
                   {user?.email || ''}
                 </p>
               </div>
