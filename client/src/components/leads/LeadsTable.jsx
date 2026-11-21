@@ -146,13 +146,13 @@ export const LeadsTable = ({
                       </div>
 
                       <div className="min-w-0">
-                        <div className="group/copy flex items-center gap-1.5">
+                        <div className="group/copy inline-flex items-center gap-1.5 max-w-full">
                           <span className="font-semibold text-text-primary truncate">
                             {lead.name}
                           </span>
                           <CopyButton text={lead.name} label="Name" />
                         </div>
-                        <div className="group/copy flex items-center gap-1.5 text-text-tertiary text-[11px] font-normal">
+                        <div className="group/copy inline-flex items-center gap-1.5 text-text-tertiary text-[11px] font-normal max-w-full">
                           <span className="truncate">{lead.email}</span>
                           <CopyButton text={lead.email} label="Email" />
                         </div>
@@ -162,7 +162,7 @@ export const LeadsTable = ({
 
                   {/* Company with building icon & hover copy button */}
                   <td className="py-3 px-4 text-text-secondary">
-                    <div className="group/copy flex items-center gap-1.5">
+                    <div className="group/copy inline-flex items-center gap-1.5 max-w-full">
                       <Building2 className="w-3.5 h-3.5 text-text-tertiary shrink-0" strokeWidth={1.75} />
                       <span className="font-medium text-text-secondary">{lead.company}</span>
                       <CopyButton text={lead.company} label="Company" />
@@ -172,7 +172,7 @@ export const LeadsTable = ({
                   {/* Phone (>=1024px) with Country Flag SVG & hover copy button */}
                   <td className="hidden lg:table-cell py-3 px-4 font-mono text-[11px]">
                     {lead.phone ? (
-                      <div className="group/copy flex items-center gap-2">
+                      <div className="group/copy inline-flex items-center gap-2 max-w-full">
                         <CountryFlag phone={lead.phone} />
                         <span className="text-text-primary">{lead.phone}</span>
                         <CopyButton text={lead.phone} label="Phone number" />

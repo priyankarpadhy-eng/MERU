@@ -45,13 +45,13 @@ export const LeadCard = ({
           </div>
 
           <div className="min-w-0">
-            <div className="group/copy flex items-center gap-1.5">
+            <div className="group/copy inline-flex items-center gap-1.5 max-w-full">
               <h3 className="text-sm font-semibold text-text-primary leading-tight truncate">
                 {lead.name}
               </h3>
               <CopyButton text={lead.name} label="Name" />
             </div>
-            <div className="group/copy flex items-center gap-1 text-xs text-text-secondary mt-0.5 truncate">
+            <div className="group/copy inline-flex items-center gap-1 text-xs text-text-secondary mt-0.5 truncate max-w-full">
               <Building2 className="w-3 h-3 text-text-tertiary shrink-0" />
               <span className="truncate">{lead.company}</span>
               <CopyButton text={lead.company} label="Company" />

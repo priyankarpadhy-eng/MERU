@@ -68,9 +68,9 @@ export const CopyButton = ({
       type="button"
       onClick={handleCopy}
       className={cn(
-        'p-1 rounded-[4px] text-text-tertiary hover:text-text-primary hover:bg-surface-muted transition-all duration-150 inline-flex items-center justify-center shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent',
+        'p-1 rounded-[4px] text-text-tertiary hover:text-text-primary hover:bg-surface-muted dark:hover:bg-[#202724] transition-all duration-150 inline-flex items-center justify-center shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent',
         variant === 'hover' &&
-          'opacity-0 group-hover:opacity-100 group-hover/copy:opacity-100 focus:opacity-100',
+          'opacity-0 group-hover/copy:opacity-100 focus:opacity-100',
         copied && 'opacity-100 text-accent bg-accent-soft',
         className
       )}
