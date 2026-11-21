@@ -14,6 +14,7 @@ export default defineConfig({
           vendor: ['react', 'react-dom', 'react-router-dom', '@tanstack/react-query'],
           motion: ['framer-motion'],
           icons: ['lucide-react'],
+          flags: ['country-list-with-dial-code-and-flag'],
         },
       },
     },
