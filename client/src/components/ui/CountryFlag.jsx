@@ -44,6 +44,37 @@ export const getCountryFromPhone = (phone) => {
 };
 
 /**
+ * Formats mobile/phone numbers with dial code followed by a space, then the rest closely placed
+ * e.g. "+1 4155550101", "+91 9876543210", "+44 2079460912"
+ */
+export const formatPhoneNumber = (phone) => {
+  if (!phone) return '—';
+  const clean = String(phone).trim().replace(/[^0-9+]/g, '');
+  if (!clean) return phone;
+
+  const withPlus = clean.startsWith('+') ? clean : `+${clean}`;
+
+  for (let len = Math.min(withPlus.length, 5); len >= 2; len--) {
+    const prefix = withPlus.slice(0, len);
+    const found = countryList.findOneByDialCode(prefix);
+    if (found?.data?.dial_code) {
+      const dial = found.data.dial_code;
+      const national = withPlus.slice(dial.length).replace(/\D/g, '');
+      return national ? `${dial} ${national}` : dial;
+    }
+  }
+
+  // Fallback regex if dial code prefix wasn't identified in country list
+  const match = withPlus.match(/^(\+\d{1,4})(.*)$/);
+  if (match) {
+    const rest = match[2].replace(/\D/g, '');
+    return rest ? `${match[1]} ${rest}` : match[1];
+  }
+
+  return phone;
+};
+
+/**
  * Universal Country Flag component powered by country-list-with-dial-code-and-flag.
  * Renders high-resolution crisp SVGs for all 250+ countries, with fallback to country emoji flag.
  */

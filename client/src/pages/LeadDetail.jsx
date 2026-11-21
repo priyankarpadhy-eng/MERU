@@ -19,7 +19,7 @@ import { Button } from '../components/ui/Button';
 import { Skeleton } from '../components/ui/Skeleton';
 import { ConfirmDialog } from '../components/ui/ConfirmDialog';
 import { CopyButton } from '../components/ui/CopyButton';
-import { CountryFlag } from '../components/ui/CountryFlag';
+import { CountryFlag, formatPhoneNumber } from '../components/ui/CountryFlag';
 import { formatDateTime, formatDate, getInitials, getAvatarColor, cn } from '../lib/utils';
 
 export const LeadDetail = ({ onOpenEdit }) => {
@@ -196,13 +196,13 @@ export const LeadDetail = ({ onOpenEdit }) => {
                       href={`tel:${lead.phone}`}
                       className="text-xs font-mono font-medium text-text-primary hover:text-accent truncate block"
                     >
-                      {lead.phone || '—'}
+                      {formatPhoneNumber(lead.phone)}
                     </a>
                   </div>
                 </div>
               </div>
               {lead.phone && (
-                <CopyButton text={lead.phone} label="Phone number" variant="inline" />
+                <CopyButton text={formatPhoneNumber(lead.phone)} label="Phone number" variant="inline" />
               )}
             </div>
 

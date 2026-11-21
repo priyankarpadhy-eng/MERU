@@ -3,7 +3,7 @@ import { Mail, Phone, MoreHorizontal, Pencil, Trash2, Building2 } from 'lucide-r
 import { StatusBadge } from './StatusBadge';
 import { SourceBadge } from './SourceBadge';
 import { CopyButton } from '../ui/CopyButton';
-import { CountryFlag } from '../ui/CountryFlag';
+import { CountryFlag, formatPhoneNumber } from '../ui/CountryFlag';
 import { formatRelativeTime, getInitials, getAvatarColor, cn } from '../../lib/utils';
 
 export const LeadCard = ({
@@ -121,7 +121,7 @@ export const LeadCard = ({
               <span>Call</span>
             </a>
             <CopyButton
-              text={lead.phone}
+              text={formatPhoneNumber(lead.phone)}
               label="Phone number"
               variant="inline"
               className="h-9 w-9 bg-surface-muted border border-border"

@@ -13,7 +13,7 @@ import { StatusBadge } from './StatusBadge';
 import { SourceBadge } from './SourceBadge';
 import { LeadCard } from './LeadCard';
 import { CopyButton } from '../ui/CopyButton';
-import { CountryFlag } from '../ui/CountryFlag';
+import { CountryFlag, formatPhoneNumber } from '../ui/CountryFlag';
 import { formatDate, getInitials, getAvatarColor, cn } from '../../lib/utils';
 
 export const LeadsTable = ({
@@ -174,8 +174,8 @@ export const LeadsTable = ({
                     {lead.phone ? (
                       <div className="group/copy inline-flex items-center gap-2 max-w-full">
                         <CountryFlag phone={lead.phone} />
-                        <span className="text-text-primary">{lead.phone}</span>
-                        <CopyButton text={lead.phone} label="Phone number" />
+                        <span className="text-text-primary">{formatPhoneNumber(lead.phone)}</span>
+                        <CopyButton text={formatPhoneNumber(lead.phone)} label="Phone number" />
                       </div>
                     ) : (
                       <span className="text-text-tertiary">—</span>
