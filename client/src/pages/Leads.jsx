@@ -179,10 +179,10 @@ export const Leads = ({ onOpenAdd, onOpenEdit }) => {
       {/* Top Header: Title, count, and action buttons */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div className="flex items-center gap-2.5">
-          <h1 className="text-2xl sm:text-3xl font-bold text-text-primary dark:text-[#ECEDEA] tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-bold text-text-primary dark:text-[#F4F5F7] tracking-tight">
             Leads
           </h1>
-          <span className="font-mono text-xs px-2.5 py-0.5 rounded-full bg-surface-muted dark:bg-[#1A201E] text-text-secondary dark:text-[#A0ABA5] border border-border dark:border-[#2C3833]">
+          <span className="font-mono text-xs px-2.5 py-0.5 rounded-full bg-surface-muted dark:bg-[#181A1F] text-text-secondary dark:text-[#9BA1AE] border border-border dark:border-[#282C34]">
             {meta.total}
           </span>
         </div>
@@ -192,7 +192,7 @@ export const Leads = ({ onOpenAdd, onOpenEdit }) => {
           <button
             type="button"
             onClick={handleExportCSV}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-border dark:border-[#2C3833] bg-surface dark:bg-[#1A201E] text-text-primary dark:text-[#ECEDEA] text-xs font-semibold hover:bg-surface-muted dark:hover:bg-[#222B27] shadow-xs transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-border dark:border-[#282C34] bg-surface dark:bg-[#181A1F] text-text-primary dark:text-[#F4F5F7] text-xs font-semibold hover:bg-surface-muted dark:hover:bg-[#22252C] shadow-xs transition-colors cursor-pointer"
           >
             <Download className="w-3.5 h-3.5 text-text-secondary dark:text-[#88948E]" />
             <span>Export CSV</span>
@@ -210,7 +210,7 @@ export const Leads = ({ onOpenAdd, onOpenEdit }) => {
       </div>
 
       {/* Main card containing Filters + Table + Pagination (rounded-20px Metrik design) */}
-      <div className="bg-surface border border-border/80 rounded-[20px] overflow-hidden shadow-xs">
+      <div className="bg-surface dark:bg-[#15171B] border border-border/80 dark:border-[#282C34] rounded-[20px] overflow-hidden shadow-xs">
         <LeadFilters
           search={searchInput}
           onSearchChange={setSearchInput}

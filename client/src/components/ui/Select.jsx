@@ -35,11 +35,11 @@ export const Select = forwardRef(
             ref={ref}
             id={selectId}
             className={cn(
-              'w-full h-10 px-3 pr-9 bg-surface dark:bg-[#1A201E] text-text-primary dark:text-[#ECEDEA] text-sm rounded-[8px] border transition-colors duration-150 appearance-none cursor-pointer',
-              'focus:border-accent dark:focus:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/20 dark:[&>option]:bg-[#161918] dark:[&>option]:text-[#ECEDEA]',
+              'w-full h-10 px-3 pr-9 bg-surface dark:bg-[#181A1F] text-text-primary dark:text-[#F4F5F7] text-sm rounded-[8px] border transition-colors duration-150 appearance-none cursor-pointer',
+              'focus:border-accent dark:focus:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/20 dark:[&>option]:bg-[#15171B] dark:[&>option]:text-[#F4F5F7]',
               error
                 ? 'border-[#DC2626] focus:border-[#DC2626] focus-visible:ring-[#DC2626]/20'
-                : 'border-border dark:border-[#2C3833] hover:border-text-tertiary dark:hover:border-[#3E4E47]',
+                : 'border-border dark:border-[#282C34] hover:border-text-tertiary dark:hover:border-[#4B5263]',
               className
             )}
             {...props}

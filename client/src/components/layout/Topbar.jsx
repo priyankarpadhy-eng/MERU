@@ -31,9 +31,9 @@ export const Topbar = ({
             onClick={() => navigate('/leads')}
             placeholder="Search across your leads, pipeline..."
             readOnly
-            className="w-full h-9 pl-9 pr-12 rounded-full bg-surface-muted/60 dark:bg-[#1A201E] border border-border dark:border-[#2C3833] text-xs text-text-primary dark:text-[#ECEDEA] placeholder:text-text-tertiary dark:placeholder:text-[#76837D] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent cursor-pointer hover:bg-surface-muted dark:hover:bg-[#202724] shadow-xs transition-colors"
+            className="w-full h-9 pl-9 pr-12 rounded-full bg-surface-muted/60 dark:bg-[#181A1F] border border-border dark:border-[#282C34] text-xs text-text-primary dark:text-[#F4F5F7] placeholder:text-text-tertiary dark:placeholder:text-[#686E7B] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent cursor-pointer hover:bg-surface-muted dark:hover:bg-[#1E2127] shadow-xs transition-colors"
           />
-          <kbd className="absolute right-3 top-1/2 -translate-y-1/2 font-mono text-[10px] bg-surface dark:bg-[#141816] px-1.5 py-0.5 rounded border border-border dark:border-[#2C3833] text-text-tertiary dark:text-[#88948E] pointer-events-none">
+          <kbd className="absolute right-3 top-1/2 -translate-y-1/2 font-mono text-[10px] bg-surface dark:bg-[#101215] px-1.5 py-0.5 rounded border border-border dark:border-[#282C34] text-text-tertiary dark:text-[#88948E] pointer-events-none">
             ⌘K
           </kbd>
         </div>
@@ -43,7 +43,7 @@ export const Topbar = ({
         {/* Quick Add Lead Pill Button (From reference design) */}
         <button
           onClick={() => navigate('/leads/new')}
-          className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-accent hover:bg-accent-hover text-white dark:text-[#061512] text-xs font-semibold shadow-xs transition-colors cursor-pointer"
+          className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#0F1115] hover:bg-[#1F232B] text-white dark:bg-white dark:text-[#090A0D] dark:hover:bg-[#E5E7EB] text-xs font-semibold shadow-xs transition-colors cursor-pointer"
         >
           <UserPlus className="w-3.5 h-3.5" />
           <span>Add lead</span>
@@ -52,18 +52,18 @@ export const Topbar = ({
         {/* Notification Bell Button */}
         <button
           onClick={() => navigate('/leads')}
-          className="relative p-2 rounded-full border border-border dark:border-[#2C3833] bg-surface dark:bg-[#1A201E] text-text-secondary dark:text-[#A0ABA5] hover:text-text-primary dark:hover:text-[#ECEDEA] hover:bg-surface-muted dark:hover:bg-[#202724] shadow-xs transition-colors cursor-pointer"
+          className="relative p-2 rounded-full border border-border dark:border-[#282C34] bg-surface dark:bg-[#181A1F] text-text-secondary dark:text-[#9BA1AE] hover:text-text-primary dark:hover:text-[#F4F5F7] hover:bg-surface-muted dark:hover:bg-[#22252C] shadow-xs transition-colors cursor-pointer"
           title="Notifications & follow-up alerts"
           aria-label="Notifications"
         >
           <Bell className="w-4 h-4" strokeWidth={1.75} />
-          <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-accent" />
+          <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-[#0F1115] dark:bg-white" />
         </button>
 
         {/* Theme Toggle Button */}
         <button
           onClick={onToggleTheme}
-          className="p-2 rounded-full border border-border dark:border-[#2C3833] bg-surface dark:bg-[#1A201E] text-text-secondary dark:text-[#A0ABA5] hover:text-text-primary dark:hover:text-[#ECEDEA] hover:bg-surface-muted dark:hover:bg-[#202724] shadow-xs transition-colors cursor-pointer"
+          className="p-2 rounded-full border border-border dark:border-[#282C34] bg-surface dark:bg-[#181A1F] text-text-secondary dark:text-[#9BA1AE] hover:text-text-primary dark:hover:text-[#F4F5F7] hover:bg-surface-muted dark:hover:bg-[#22252C] shadow-xs transition-colors cursor-pointer"
           title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
           aria-label="Toggle color theme"
         >
@@ -77,7 +77,7 @@ export const Topbar = ({
         {/* User Avatar linking to profile */}
         <button
           onClick={() => navigate('/profile')}
-          className="w-8 h-8 rounded-full bg-accent-soft text-accent font-semibold text-xs flex items-center justify-center shrink-0 hover:ring-2 hover:ring-accent/40 transition-all cursor-pointer shadow-xs"
+          className="w-8 h-8 rounded-full bg-surface-muted dark:bg-[#1E2127] text-text-primary dark:text-[#F4F5F7] border border-border dark:border-[#282C34] font-semibold text-xs flex items-center justify-center shrink-0 hover:ring-2 hover:ring-accent/40 transition-all cursor-pointer shadow-xs"
           title={user?.name || 'Profile'}
           aria-label="View user profile"
         >

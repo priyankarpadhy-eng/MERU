@@ -57,7 +57,7 @@ export const Pagination = ({
             <select
               value={limit}
               onChange={(e) => onLimitChange(Number(e.target.value))}
-              className="bg-surface-muted dark:bg-[#1A201E] text-text-primary dark:text-[#ECEDEA] border border-border dark:border-[#2C3833] rounded-[6px] px-2 py-0.5 text-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent dark:[&>option]:bg-[#161918] dark:[&>option]:text-[#ECEDEA]"
+              className="bg-surface-muted dark:bg-[#181A1F] text-text-primary dark:text-[#F4F5F7] border border-border dark:border-[#282C34] rounded-[6px] px-2 py-0.5 text-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent dark:[&>option]:bg-[#15171B] dark:[&>option]:text-[#F4F5F7]"
               aria-label="Rows per page"
             >
               <option value={10}>10</option>
@@ -88,8 +88,8 @@ export const Pagination = ({
               className={cn(
                 'h-8 w-8 rounded-[6px] text-xs font-mono transition-colors flex items-center justify-center focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent',
                 p === page
-                  ? 'bg-accent text-white dark:text-[#061512] font-semibold shadow-xs'
-                  : 'text-text-secondary dark:text-[#A0ABA5] hover:bg-surface-muted dark:hover:bg-[#1F2623] hover:text-text-primary dark:hover:text-[#ECEDEA]'
+                  ? 'bg-[#0F1115] text-white dark:bg-white dark:text-[#090A0D] font-semibold shadow-xs'
+                  : 'text-text-secondary dark:text-[#9BA1AE] hover:bg-surface-muted dark:hover:bg-[#1E2127] hover:text-text-primary dark:hover:text-[#F4F5F7]'
               )}
               aria-current={p === page ? 'page' : undefined}
             >

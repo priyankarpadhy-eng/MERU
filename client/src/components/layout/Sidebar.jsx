@@ -44,7 +44,7 @@ export const Sidebar = ({
             /* Collapsed view: logo mark is perfectly centered, never clipped, click expands sidebar */
             <button
               onClick={onToggleCollapse}
-              className="w-10 h-10 rounded-[10px] bg-accent flex items-center justify-center shrink-0 text-white hover:opacity-90 transition-opacity cursor-pointer shadow-xs"
+              className="w-10 h-10 rounded-[10px] bg-[#0F1115] dark:bg-white text-white dark:text-[#090A0D] flex items-center justify-center shrink-0 hover:opacity-90 transition-opacity cursor-pointer shadow-xs"
               title="Expand sidebar"
               aria-label="Expand sidebar"
             >
@@ -67,7 +67,7 @@ export const Sidebar = ({
             /* Expanded view: Logo + Title on left, collapse button on right */
             <>
               <div className="flex items-center gap-2.5 overflow-hidden min-w-0">
-                <div className="w-8 h-8 rounded-[8px] bg-accent flex items-center justify-center shrink-0 text-white shadow-xs">
+                <div className="w-8 h-8 rounded-[8px] bg-[#0F1115] dark:bg-white text-white dark:text-[#090A0D] flex items-center justify-center shrink-0 shadow-xs">
                   <svg
                     width="18"
                     height="18"
@@ -170,7 +170,7 @@ export const Sidebar = ({
           )}
         >
           <div className="flex items-center gap-2 overflow-hidden min-w-0">
-            <div className="w-8 h-8 rounded-full bg-accent-soft text-accent font-semibold text-xs flex items-center justify-center shrink-0">
+            <div className="w-8 h-8 rounded-full bg-surface-muted dark:bg-[#1E2127] text-text-primary dark:text-[#F4F5F7] border border-border dark:border-[#282C34] font-semibold text-xs flex items-center justify-center shrink-0">
               {getInitials(user?.name)}
             </div>
             {!isCollapsed && (

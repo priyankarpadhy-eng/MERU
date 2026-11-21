@@ -16,7 +16,7 @@ export const LeadFilters = ({
   const isFiltered = Boolean(search || status || source);
 
   return (
-    <div className="bg-surface dark:bg-[#161918] border-b border-border dark:border-[#28302D] py-3.5 px-4 sm:px-6 flex flex-col gap-3.5">
+    <div className="bg-surface dark:bg-[#15171B] border-b border-border dark:border-[#282C34] py-3.5 px-4 sm:px-6 flex flex-col gap-3.5">
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
         {/* Search input with debounced clearable control (pill style) */}
         <div className="relative flex-1 max-w-md">
@@ -26,12 +26,12 @@ export const LeadFilters = ({
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder="Search by name, email, or company..."
-            className="w-full h-9 pl-9 pr-8 bg-surface-muted/60 dark:bg-[#1A201E] text-text-primary dark:text-[#ECEDEA] text-xs rounded-full border border-border dark:border-[#2C3833] placeholder:text-text-tertiary dark:placeholder:text-[#76837D] focus:border-accent dark:focus:border-accent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent shadow-xs transition-colors"
+            className="w-full h-9 pl-9 pr-8 bg-surface-muted/60 dark:bg-[#181A1F] text-text-primary dark:text-[#F4F5F7] text-xs rounded-full border border-border dark:border-[#282C34] placeholder:text-text-tertiary dark:placeholder:text-[#686E7B] focus:border-accent dark:focus:border-accent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent shadow-xs transition-colors"
           />
           {search && (
             <button
               onClick={() => onSearchChange('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 p-0.5 text-text-tertiary dark:text-[#88948E] hover:text-text-primary dark:hover:text-[#ECEDEA] rounded-full transition-colors"
+              className="absolute right-3 top-1/2 -translate-y-1/2 p-0.5 text-text-tertiary dark:text-[#88948E] hover:text-text-primary dark:hover:text-[#F4F5F7] rounded-full transition-colors"
               aria-label="Clear search"
             >
               <X className="w-3.5 h-3.5" strokeWidth={1.75} />
@@ -46,7 +46,7 @@ export const LeadFilters = ({
             <select
               value={source}
               onChange={(e) => onSourceChange(e.target.value)}
-              className="h-9 px-3 py-1 text-xs bg-surface dark:bg-[#1A201E] border border-border dark:border-[#2C3833] rounded-full text-text-primary dark:text-[#ECEDEA] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent cursor-pointer shadow-xs dark:[&>option]:bg-[#161918] dark:[&>option]:text-[#ECEDEA] transition-colors"
+              className="h-9 px-3 py-1 text-xs bg-surface dark:bg-[#181A1F] border border-border dark:border-[#282C34] rounded-full text-text-primary dark:text-[#F4F5F7] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent cursor-pointer shadow-xs dark:[&>option]:bg-[#15171B] dark:[&>option]:text-[#F4F5F7] transition-colors"
               aria-label="Filter by source"
             >
               <option value="">All sources</option>
@@ -61,7 +61,7 @@ export const LeadFilters = ({
           {isFiltered && (
             <button
               onClick={onClearFilters}
-              className="h-9 px-3 text-xs font-medium text-text-secondary dark:text-[#9DA6A0] hover:text-text-primary dark:hover:text-[#ECEDEA] hover:bg-surface-muted dark:hover:bg-[#202724] rounded-full transition-colors cursor-pointer"
+              className="h-9 px-3 text-xs font-medium text-text-secondary dark:text-[#9BA1AE] hover:text-text-primary dark:hover:text-[#F4F5F7] hover:bg-surface-muted dark:hover:bg-[#1E2127] rounded-full transition-colors cursor-pointer"
             >
               Clear filters
             </button>
@@ -76,8 +76,8 @@ export const LeadFilters = ({
           className={cn(
             'flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-150 shrink-0 cursor-pointer border',
             !status
-              ? 'bg-[#121614] text-white border-[#121614] dark:bg-[#ECEDEA] dark:text-[#0C1210] dark:border-[#ECEDEA] font-semibold shadow-xs'
-              : 'bg-surface-muted/50 dark:bg-[#1A201E] border-border/80 dark:border-[#2C3833] text-text-secondary dark:text-[#A0ABA5] hover:bg-surface-muted dark:hover:bg-[#222B27] hover:text-text-primary dark:hover:text-[#ECEDEA]'
+              ? 'bg-[#0F1115] text-white border-[#0F1115] dark:bg-white dark:text-[#090A0D] dark:border-white font-semibold shadow-xs'
+              : 'bg-surface-muted/50 dark:bg-[#181A1F] border-border/80 dark:border-[#282C34] text-text-secondary dark:text-[#9BA1AE] hover:bg-surface-muted dark:hover:bg-[#1E2127] hover:text-text-primary dark:hover:text-[#F4F5F7]'
           )}
         >
           <span>All</span>
@@ -85,8 +85,8 @@ export const LeadFilters = ({
             className={cn(
               'text-[10px] font-mono px-1.5 py-0.2 rounded-full',
               !status
-                ? 'bg-white/20 text-white dark:bg-black/15 dark:text-[#0C1210]'
-                : 'bg-surface-muted dark:bg-[#252E2A] text-text-tertiary dark:text-[#88948E]'
+                ? 'bg-white/20 text-white dark:bg-black/15 dark:text-[#090A0D]'
+                : 'bg-surface-muted dark:bg-[#23262E] text-text-tertiary dark:text-[#8C93A0]'
             )}
           >
             {totalCount}
@@ -105,8 +105,8 @@ export const LeadFilters = ({
               className={cn(
                 'flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-150 shrink-0 cursor-pointer border',
                 isActive
-                  ? 'bg-[#121614] text-white border-[#121614] dark:bg-[#ECEDEA] dark:text-[#0C1210] dark:border-[#ECEDEA] font-semibold shadow-xs'
-                  : 'bg-surface-muted/50 dark:bg-[#1A201E] border-border/80 dark:border-[#2C3833] text-text-secondary dark:text-[#A0ABA5] hover:bg-surface-muted dark:hover:bg-[#222B27] hover:text-text-primary dark:hover:text-[#ECEDEA]'
+                  ? 'bg-[#0F1115] text-white border-[#0F1115] dark:bg-white dark:text-[#090A0D] dark:border-white font-semibold shadow-xs'
+                  : 'bg-surface-muted/50 dark:bg-[#181A1F] border-border/80 dark:border-[#282C34] text-text-secondary dark:text-[#9BA1AE] hover:bg-surface-muted dark:hover:bg-[#1E2127] hover:text-text-primary dark:hover:text-[#F4F5F7]'
               )}
             >
               <span
@@ -118,8 +118,8 @@ export const LeadFilters = ({
                 className={cn(
                   'text-[10px] font-mono px-1.5 py-0.2 rounded-full',
                   isActive
-                    ? 'bg-white/20 text-white dark:bg-black/15 dark:text-[#0C1210]'
-                    : 'bg-surface-muted dark:bg-[#252E2A] text-text-tertiary dark:text-[#88948E]'
+                    ? 'bg-white/20 text-white dark:bg-black/15 dark:text-[#090A0D]'
+                    : 'bg-surface-muted dark:bg-[#23262E] text-text-tertiary dark:text-[#8C93A0]'
                 )}
               >
                 {count}

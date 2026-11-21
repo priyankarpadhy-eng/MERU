@@ -42,13 +42,13 @@ export const Input = forwardRef(
             id={inputId}
             type={type}
             className={cn(
-              'w-full h-10 px-3 bg-surface dark:bg-[#1A201E] text-text-primary dark:text-[#ECEDEA] text-sm rounded-[8px] border transition-colors duration-150',
-              'placeholder:text-text-tertiary dark:placeholder:text-[#76837D] focus:border-accent dark:focus:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/20',
+              'w-full h-10 px-3 bg-surface dark:bg-[#181A1F] text-text-primary dark:text-[#F4F5F7] text-sm rounded-[8px] border transition-colors duration-150',
+              'placeholder:text-text-tertiary dark:placeholder:text-[#686E7B] focus:border-accent dark:focus:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/20',
               LeftIcon && 'pl-9',
               rightElement && 'pr-10',
               error
                 ? 'border-[#DC2626] focus:border-[#DC2626] focus-visible:ring-[#DC2626]/20'
-                : 'border-border dark:border-[#2C3833] hover:border-text-tertiary dark:hover:border-[#3E4E47]',
+                : 'border-border dark:border-[#282C34] hover:border-text-tertiary dark:hover:border-[#4B5263]',
               className
             )}
             {...props}

@@ -19,8 +19,8 @@ export const SOURCE_ICONS = {
   WEBSITE: {
     icon: Globe,
     label: 'Website',
-    colorClass: 'text-[#0F6B5C] dark:text-[#3FB59F]',
-    bgClass: 'bg-accent-soft border-accent/20',
+    colorClass: 'text-text-primary dark:text-[#F4F5F7]',
+    bgClass: 'bg-surface-muted dark:bg-[#1E2127] border-border dark:border-[#282C34]',
   },
   REFERRAL: {
     icon: Users,

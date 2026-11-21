@@ -3,18 +3,18 @@
 @tailwind utilities;
 
 :root {
-  /* Canvas & Base Tokens (Soft Mint/Sage Canvas from reference) */
-  --color-canvas: #EBF3EE;
-  --color-bg: #F8FAF9;
+  /* Canvas & Base Tokens: Sophisticated Monochrome Theme (Linear/Vercel) */
+  --color-canvas: #EBECEF;
+  --color-bg: #F8F9FA;
   --color-surface: #FFFFFF;
-  --color-surface-muted: #F1F5F3;
-  --color-border: #E3EAE6;
-  --color-text-primary: #121614;
-  --color-text-secondary: #58615C;
-  --color-text-tertiary: #87928C;
-  --color-accent: #0F6B5C;
-  --color-accent-hover: #0B574B;
-  --color-accent-soft: #E1F0EC;
+  --color-surface-muted: #F1F2F4;
+  --color-border: #E2E4E8;
+  --color-text-primary: #0F1115;
+  --color-text-secondary: #5E6470;
+  --color-text-tertiary: #8C93A0;
+  --color-accent: #0F1115;
+  --color-accent-hover: #1F232B;
+  --color-accent-soft: #E8EAEF;
 
   /* Status Colors (Light) */
   --status-new-bg: #E6EEFD;
@@ -35,18 +35,18 @@
 }
 
 .dark {
-  /* Dark Theme */
-  --color-canvas: #090C0B;
-  --color-bg: #101312;
-  --color-surface: #161918;
-  --color-surface-muted: #1F2422;
-  --color-border: #28302D;
-  --color-text-primary: #ECEDEA;
-  --color-text-secondary: #9DA6A0;
-  --color-text-tertiary: #6E7873;
-  --color-accent: #3FB59F;
-  --color-accent-hover: #4FD2BA;
-  --color-accent-soft: #14302B;
+  /* Dark Theme: Optimized Obsidian/Porcelain Palette */
+  --color-canvas: #090A0D;
+  --color-bg: #0E1013;
+  --color-surface: #15171B;
+  --color-surface-muted: #1E2127;
+  --color-border: #282C34;
+  --color-text-primary: #F4F5F7;
+  --color-text-secondary: #9BA1AE;
+  --color-text-tertiary: #686E7B;
+  --color-accent: #FFFFFF;
+  --color-accent-hover: #E5E7EB;
+  --color-accent-soft: #23262D;
 
   /* Status Colors (Dark) */
   --status-new-bg: #16223F;

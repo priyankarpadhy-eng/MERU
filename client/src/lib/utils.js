@@ -59,7 +59,7 @@ export function getInitials(name = '') {
  */
 export function getAvatarColor(name = '') {
   const palettes = [
-    'bg-[#E1F0EC] text-[#0F6B5C] border-[#B5DFD5] dark:bg-[#14302B] dark:text-[#3FB59F] dark:border-[#1E4D43]', // Teal brand
+    'bg-[#F1F2F4] text-[#0F1115] border-[#D1D5DB] dark:bg-[#1E2127] dark:text-[#F4F5F7] dark:border-[#374151]', // Monochrome brand
     'bg-[#E6EEFD] text-[#1D4ED8] border-[#BFDBFE] dark:bg-[#16223F] dark:text-[#7BA2F7] dark:border-[#1E3A8A]', // Blue
     'bg-[#FCF0DA] text-[#A15C07] border-[#FDE68A] dark:bg-[#3A2A10] dark:text-[#E8B25A] dark:border-[#78350F]', // Amber
     'bg-[#DFF3E6] text-[#166534] border-[#BBF7D0] dark:bg-[#12301E] dark:text-[#6CCB8C] dark:border-[#14532D]', // Emerald
