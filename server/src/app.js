@@ -9,6 +9,9 @@ import { errorHandler } from './middleware/errorHandler.js';
 
 const app = express();
 
+// Trust reverse proxies (Vercel, Render, Nginx) for correct client IP and rate limiting
+app.set('trust proxy', 1);
+
 // Security HTTP headers
 app.use(helmet());
 

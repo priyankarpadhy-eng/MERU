@@ -5,8 +5,19 @@ import { ZodError } from 'zod';
 export const errorHandler = (err, req, res, _next) => {
   let error = err;
 
+  // Log unexpected or 500 errors to stderr for serverless/production observability
+  if (!(err instanceof ApiError) || err.statusCode === 500) {
+    console.error('[API Error]:', err);
+  }
+
+  // Handle Prisma initialization / connection errors (e.g. missing DATABASE_URL on Vercel)
+  if (err.name === 'PrismaClientInitializationError') {
+    error = ApiError.internal(
+      'Database connection failed. Please verify DATABASE_URL is configured in your environment settings.'
+    );
+  }
   // Handle Zod validation errors
-  if (err instanceof ZodError) {
+  else if (err instanceof ZodError) {
     const formattedErrors = err.errors.map((e) => ({
       field: e.path.join('.'),
       message: e.message,
