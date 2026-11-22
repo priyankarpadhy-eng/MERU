@@ -101,7 +101,7 @@ export const Dashboard = ({ onOpenAddLead }) => {
           Failed to load dashboard metrics
         </p>
         <p className="text-xs text-text-secondary mb-4">
-          Unable to retrieve your pipeline stats at this time.
+          Unable to retrieve your lead stats at this time.
         </p>
       </div>
     );
@@ -128,7 +128,7 @@ export const Dashboard = ({ onOpenAddLead }) => {
         <EmptyState
           icon={Users}
           title="No leads yet"
-          description="Capture your first sales lead to unlock pipeline visualizations, attribution breakdown, and conversion metrics."
+          description="Capture your first sales lead to unlock status visualizations, attribution breakdown, and conversion metrics."
           actionLabel="Add lead"
           actionIcon={UserPlus}
           onAction={() => (onOpenAddLead ? onOpenAddLead() : navigate('/leads/new'))}
@@ -147,7 +147,7 @@ export const Dashboard = ({ onOpenAddLead }) => {
             Dashboard
           </h2>
           <p className="text-xs text-text-tertiary mt-0.5">
-            Real-time pipeline performance and lead attribution overview
+            Real-time performance and lead attribution overview
           </p>
         </div>
 
@@ -221,7 +221,7 @@ export const Dashboard = ({ onOpenAddLead }) => {
         />
       </div>
 
-      {/* The Long Bar Showing Pipeline Distribution Data */}
+      {/* The Long Bar Showing Status Distribution Data */}
       <div className="p-5 sm:p-6 bg-surface border border-border rounded-[16px] shadow-xs">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
@@ -230,7 +230,7 @@ export const Dashboard = ({ onOpenAddLead }) => {
             </div>
             <div>
               <h3 className="text-sm font-semibold text-text-primary">
-                Pipeline distribution
+                Status distribution
               </h3>
               <p className="text-[11px] text-text-tertiary">
                 Visual status breakdown across all tracked leads
@@ -370,7 +370,7 @@ export const Dashboard = ({ onOpenAddLead }) => {
                   Recent leads
                 </h3>
                 <p className="text-[11px] text-text-tertiary">
-                  Latest activity in your pipeline
+                  Latest activity across your leads
                 </p>
               </div>
               <Link

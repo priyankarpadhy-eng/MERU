@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient, keepPreviousData } from '@tanstack/react-query';
 import { leadsApi } from '../api/leads.api';
 import { toast } from 'sonner';
 
@@ -8,15 +8,30 @@ export function useLeads(params = {}) {
   return useQuery({
     queryKey: [...LEADS_QUERY_KEY, params],
     queryFn: () => leadsApi.getLeads(params),
-    keepPreviousData: true,
+    placeholderData: keepPreviousData,
+    staleTime: 60 * 1000,
   });
 }
 
 export function useLead(id) {
+  const queryClient = useQueryClient();
+
   return useQuery({
     queryKey: ['lead', id],
     queryFn: () => leadsApi.getLeadById(id),
     enabled: !!id,
+    initialData: () => {
+      // Find the lead in any cached leads query for instantaneous 0ms drawer rendering
+      const queries = queryClient.getQueriesData({ queryKey: LEADS_QUERY_KEY });
+      for (const [, queryData] of queries) {
+        const found = queryData?.data?.find?.((l) => l.id === id);
+        if (found) return found;
+      }
+      return undefined;
+    },
+    initialDataUpdatedAt: () => {
+      return queryClient.getQueryState(LEADS_QUERY_KEY)?.dataUpdatedAt;
+    },
   });
 }
 

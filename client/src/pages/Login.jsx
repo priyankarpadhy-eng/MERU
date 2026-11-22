@@ -88,7 +88,7 @@ export const Login = () => {
         {/* Editorial Brand Statement */}
         <div className="relative z-10 max-w-sm">
           <h2 className="text-2xl font-semibold leading-snug tracking-tight mb-3">
-            Calm, precise pipeline tracking for high-velocity sales.
+            Calm, precise lead management for high-velocity sales.
           </h2>
           <p className="text-sm text-white/80 leading-relaxed">
             Zero noise, crisp status attribution, and seamless team lead workflows.
@@ -132,7 +132,7 @@ export const Login = () => {
               Sign in
             </h1>
             <p className="text-xs text-text-secondary mt-1">
-              Enter your credentials to access your pipeline.
+              Enter your credentials to access your leads.
             </p>
           </div>
 

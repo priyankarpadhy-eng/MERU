@@ -64,8 +64,8 @@ export const LeadDrawer = ({
         title={isEdit ? 'Edit lead' : 'Add lead'}
         description={
           isEdit
-            ? 'Update lead contact information and pipeline status.'
-            : 'Capture a new sales opportunity in your pipeline.'
+            ? 'Update lead contact information and status.'
+            : 'Capture a new sales opportunity.'
         }
       >
         <LeadForm

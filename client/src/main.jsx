@@ -14,7 +14,8 @@ const queryClient = new QueryClient({
         if (error?.status === 401 || error?.status === 404) return false;
         return failureCount < 2;
       },
-      staleTime: 30 * 1000, // 30 seconds
+      staleTime: 60 * 1000, // 60 seconds fresh cache
+      gcTime: 10 * 60 * 1000, // 10 minutes cache garbage collection
       refetchOnWindowFocus: false,
     },
   },

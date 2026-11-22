@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useQueryClient } from '@tanstack/react-query';
 import {
   LayoutDashboard,
   Users,
@@ -7,6 +8,8 @@ import {
   LogOut,
   ChevronLeft,
 } from 'lucide-react';
+import { leadsApi } from '../../api/leads.api';
+import { statsApi } from '../../api/stats.api';
 import { cn, getInitials } from '../../lib/utils';
 
 export const Sidebar = ({
@@ -16,6 +19,24 @@ export const Sidebar = ({
   onLogout,
   onCloseMobile,
 }) => {
+  const queryClient = useQueryClient();
+
+  const handlePrefetch = (to) => {
+    if (to === '/') {
+      queryClient.prefetchQuery({
+        queryKey: ['stats'],
+        queryFn: () => statsApi.getStats(),
+        staleTime: 60 * 1000,
+      });
+    } else if (to === '/leads') {
+      queryClient.prefetchQuery({
+        queryKey: ['leads', { page: 1, limit: 10, sortBy: 'createdAt', order: 'desc' }],
+        queryFn: () => leadsApi.getLeads({ page: 1, limit: 10, sortBy: 'createdAt', order: 'desc' }),
+        staleTime: 60 * 1000,
+      });
+    }
+  };
+
   const navItems = [
     { label: 'Dashboard', to: '/', icon: LayoutDashboard },
     { label: 'Leads', to: '/leads', icon: Users },
@@ -110,6 +131,7 @@ export const Sidebar = ({
               key={item.to}
               to={item.to}
               onClick={onCloseMobile}
+              onMouseEnter={() => handlePrefetch(item.to)}
               title={isCollapsed ? item.label : undefined}
               className={({ isActive }) =>
                 cn(

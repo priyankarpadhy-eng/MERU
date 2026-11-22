@@ -29,7 +29,7 @@ export const Topbar = ({
           <input
             type="text"
             onClick={() => navigate('/leads')}
-            placeholder="Search across your leads, pipeline..."
+            placeholder="Search across your leads, companies, contacts..."
             readOnly
             className="w-full h-9 pl-9 pr-12 rounded-full bg-surface-muted/60 dark:bg-[#181A1F] border border-border dark:border-[#282C34] text-xs text-text-primary dark:text-[#F4F5F7] placeholder:text-text-tertiary dark:placeholder:text-[#686E7B] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent cursor-pointer hover:bg-surface-muted dark:hover:bg-[#1E2127] shadow-xs transition-colors"
           />

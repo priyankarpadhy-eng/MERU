@@ -260,7 +260,7 @@ export const Leads = ({ onOpenAdd, onOpenEdit }) => {
           <EmptyState
             icon={Users}
             title="No leads yet"
-            description="Start building your pipeline by capturing your first sales lead."
+            description="Start tracking by capturing your first sales lead."
             actionLabel="Add lead"
             actionIcon={UserPlus}
             onAction={() => (onOpenAdd ? onOpenAdd() : navigate('/leads/new'))}

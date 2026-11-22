@@ -17,8 +17,12 @@ const allowedOrigins = [env.CLIENT_URL, 'http://localhost:5173', 'http://127.0.0
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps, curl, server-to-server)
-      if (!origin || allowedOrigins.includes(origin)) {
+      // Allow requests with no origin (like mobile apps, curl, server-to-server) or matching origins
+      if (
+        !origin ||
+        allowedOrigins.includes(origin) ||
+        (origin && (origin.endsWith('.vercel.app') || origin.includes('localhost')))
+      ) {
         return callback(null, true);
       }
       return callback(new Error(`Origin ${origin} not allowed by CORS`));
@@ -52,6 +56,9 @@ import leadsRoutes from './modules/leads/leads.routes.js';
 import statsRoutes from './modules/stats/stats.routes.js';
 
 export const apiRouter = express.Router();
+apiRouter.get('/health', (_req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
 apiRouter.use('/auth', authRoutes);
 apiRouter.use('/leads', leadsRoutes);
 apiRouter.use('/stats', statsRoutes);
